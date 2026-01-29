@@ -4,7 +4,7 @@ import type { Recipe } from './api/resource'
 
 
 function App() {
-  const [data, setData] = useState<Recipe | null>(null)
+  const [data, setData] = useState<Recipe[] | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -16,7 +16,13 @@ function App() {
   if (error) return <p>Erreur : {error}</p>
   if (!data) return <p>Chargement…</p>
 
-  return <h1>{data.name}</h1>
+  return (
+  <div>
+    {data.map((recipe) => (
+      <h1 key={recipe.id}>{recipe.name}</h1>
+    ))}
+  </div>
+  );
 }
 
 export default App

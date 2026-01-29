@@ -7,5 +7,5 @@ export type Recipe = {
 }
 
 export function getResource(identifier: string) {
-  return apiFetch<Recipe>(`/recipes/${identifier}`)
+  return apiFetch<Recipe[]>(`/${identifier}`)
 }
