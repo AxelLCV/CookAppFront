@@ -9,8 +9,14 @@ function App() {
 
   useEffect(() => {
     getResource('recipes')
-      .then(setData)
-      .catch((err) => setError(err.message))
+      .then((res) => {
+      console.log('Donnée brute reçue :', res);
+      setData(res); // si tu veux la garder pour affichage
+    })
+    .catch((err) => {
+      console.error(err);
+      setError(err.message);
+    });
   }, [])
 
   if (error) return <p>Erreur : {error}</p>
