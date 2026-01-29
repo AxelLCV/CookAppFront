@@ -24,11 +24,13 @@ function App() {
 
   return (
   <div>
-    {data.map((recipe) => (
-      <h1 key={recipe.id}>{recipe.name}</h1>
-    ))}
+    {error && <p>Erreur : {error}</p>}
+    {!data && !error && <p>Chargement…</p>}
+    {data && (
+      <pre>{JSON.stringify(data, null, 2)}</pre>
+    )}
   </div>
-  );
+);
 }
 
 export default App
