@@ -8,7 +8,7 @@ function App() {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    getResource()//'pates-carbonara2')
+    getResource('recipes')
       .then(setData)
       .catch((err) => setError(err.message))
   }, [])
