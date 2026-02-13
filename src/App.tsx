@@ -1,36 +1,24 @@
 import { useEffect, useState } from 'react'
-import { getResource } from './api/resource'
-import type { Recipe } from './api/resource'
-
+import { Button } from './components/ui/Button'  // ← Ajoutez cette ligne
 
 function App() {
-  const [data, setData] = useState<Recipe[] | null>(null)
-  const [error, setError] = useState<string | null>(null)
-
-  useEffect(() => {
-    getResource('recipes')
-      .then((res) => {
-      console.log('Donnée brute reçue :', res);
-      setData(res); // si tu veux la garder pour affichage
-    })
-    .catch((err) => {
-      console.error(err);
-      setError(err.message);
-    });
-  }, [])
-
-  if (error) return <p>Erreur : {error}</p>
-  if (!data) return <p>Chargement…</p>
-
   return (
-  <div>
-    {error && <p>Erreur : {error}</p>}
-    {!data && !error && <p>Chargement…</p>}
-    {data && (
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-    )}
-  </div>
-);
+    <div>
+      <h1>Mon App de Recettes</h1>
+      
+      <Button variant="primary" onClick={() => alert('Favoris !')}>
+        ⭐ Ajouter aux favoris
+      </Button>
+      
+      <Button variant="secondary">
+        Annuler
+      </Button>
+      
+      <Button variant="danger">
+        Supprimer
+      </Button>
+    </div>
+  )
 }
 
 export default App
