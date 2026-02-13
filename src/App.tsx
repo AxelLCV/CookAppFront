@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { Button } from './components/ui/Button'  // ← Ajoutez cette ligne
 
 function App() {
