@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { AuthProvider } from './features/auth/context'
 import App from './App'
 
 import { registerSW } from 'virtual:pwa-register'
@@ -7,7 +8,7 @@ import { registerSW } from 'virtual:pwa-register'
 const updateSW = registerSW({
   onNeedRefresh() {
     console.log('Nouvelle version disponible')
-    updateSW(true) // force la mise à jour
+    updateSW(true)
   },
   onOfflineReady() {
     console.log('App prête hors ligne')
@@ -17,6 +18,8 @@ const updateSW = registerSW({
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <AuthProvider>
+      <App />
+    </AuthProvider>
   </React.StrictMode>
 )
