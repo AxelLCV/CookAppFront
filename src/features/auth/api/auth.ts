@@ -1,4 +1,4 @@
-import { apiClient } from '@/api/client';
+import { apiClient } from '@/config/client';
 import type { LoginCredentials, RegisterData, AuthResponse, User } from '../types/auth';
 
 export async function login(credentials: LoginCredentials): Promise<AuthResponse> {
@@ -22,6 +22,5 @@ export async function logout(): Promise<void> {
 }
 
 export async function getCurrentUser(): Promise<User> {
-  console.log("test")
   return apiClient<User>('/auth');
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { AuthProvider } from './features/auth/context'
+import './i18n'
 import App from './App'
 
 import { registerSW } from 'virtual:pwa-register'
