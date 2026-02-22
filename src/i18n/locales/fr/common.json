@@ -2,6 +2,7 @@
     "home": {
         "welcome": "Bienvenue sur cette appli de cuisine",
         "login": "Connexion",
+        "logoff": "Déconnexion",
         "register": "Inscription"
     }
 }

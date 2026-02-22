@@ -15,12 +15,6 @@ export async function register(data: RegisterData): Promise<AuthResponse> {
   });
 }
 
-export async function logout(): Promise<void> {
-  return apiClient<void>('/auth/logout', {
-    method: 'POST',
-  });
-}
-
 export async function getCurrentUser(): Promise<User> {
   return apiClient<User>('/auth');
 }

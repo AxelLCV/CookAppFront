@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import { AuthContext } from './AuthContext';
-import { login as apiLogin, register as apiRegister, logout as apiLogout, getCurrentUser } from '../api/auth';
+import { login as apiLogin, register as apiRegister, getCurrentUser } from '../api/auth';
 import { saveToken, getToken, removeToken } from '../utils/token';
 import type { User, LoginCredentials, RegisterData } from '../types/auth';
 
@@ -45,7 +45,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   const logout = () => {
-    apiLogout().catch(console.error); // Appel backend (best effort)
     removeToken();
     setUser(null);
   };
