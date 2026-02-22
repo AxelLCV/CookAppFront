@@ -1,7 +1,14 @@
 import { LoginForm } from '@/features/auth';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+import { ROUTES } from '@/config/routes';
+import { useAuth } from '@/features/auth';
 
 export function Login() {
+  const { isAuthenticated } = useAuth();
+
+  if (isAuthenticated) {
+    return <Navigate to={ROUTES.RECIPES} replace />
+  }
   return (
     <div>
       <LoginForm />
