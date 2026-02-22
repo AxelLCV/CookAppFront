@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/Button';
 import { useTranslation } from 'react-i18next';
 
 export function RecipesList() {
-  const { t } = useTranslation('auth');
+  const { t } = useTranslation('common');
   const { logout } = useAuth();
   return (
     <div>

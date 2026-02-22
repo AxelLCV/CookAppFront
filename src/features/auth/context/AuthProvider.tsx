@@ -13,7 +13,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Vérifier si l'utilisateur est déjà connecté au chargement
   useEffect(() => {
     const token = getToken();
     if (token) {

@@ -9,7 +9,7 @@ export function Home() {
   const { isAuthenticated } = useAuth();
 
   if (isAuthenticated) {
-    return <Navigate to={ROUTES.RECIPES} replace />
+    return <Navigate to={ROUTES.RECIPE_NEW} replace />
   }
 
   return (
