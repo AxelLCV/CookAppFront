@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Weekcook</string>
+    <string name="title_activity_main">Weekcook</string>
+    <string name="package_name">com.weekcook.weekcook</string>
+    <string name="custom_url_scheme">com.weekcook.weekcook</string>
+</resources>

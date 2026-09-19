@@ -15,7 +15,7 @@ export function Register() {
     <div>
       <RegisterForm />
       <p style={{ textAlign: 'center', marginTop: '1rem' }}>
-        {t("register.loginQuestion")} <Link to={ROUTES.LOGIN}>{t("regisyer.loginLink")}</Link>
+        {t("register.loginQuestion")} <Link to={ROUTES.LOGIN}>{t("register.loginLink")}</Link>
       </p>
     </div>
   );

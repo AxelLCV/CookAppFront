@@ -1,0 +1,126 @@
+:root {
+  --color-primary: #bb0c0c;
+  --color-primary-hover: #8f0909;
+  --color-primary-light: #fbe4e4;
+  
+  --color-secondary: #6c757d;
+  --color-secondary-hover: #545b62;
+  --color-secondary-light: #f8f9fa;
+  
+  --color-success: #28a745;
+  --color-success-hover: #218838;
+  --color-success-light: #d4edda;
+  
+  --color-danger: #dc3545;
+  --color-danger-hover: #c82333;
+  --color-danger-light: #f8d7da;
+  
+  --color-warning: #ffc107;
+  --color-warning-hover: #e0a800;
+  --color-warning-light: #fff3cd;
+  
+  --color-info: #17a2b8;
+  --color-info-hover: #138496;
+  --color-info-light: #d1ecf1;
+  
+  --color-text-primary: #212529;
+  --color-text-secondary: #6c757d;
+  --color-text-muted: #adb5bd;
+  --color-text-white: #ffffff;
+  
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f8f9fa;
+  --color-bg-dark: #343a40;
+  --color-bg-overlay: rgba(0, 0, 0, 0.5);
+
+  --color-border: #dee2e6;
+  --color-border-light: #e9ecef;
+  --color-border-dark: #adb5bd;
+
+  --font-family-primary: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-family-heading: 'Georgia', serif;
+  --font-family-mono: 'Monaco', 'Courier New', monospace;
+  
+  --font-size-xs: 0.75rem;      /* 12px */
+  --font-size-sm: 0.875rem;     /* 14px */
+  --font-size-base: 1rem;       /* 16px */
+  --font-size-lg: 1.125rem;     /* 18px */
+  --font-size-xl: 1.25rem;      /* 20px */
+  --font-size-2xl: 1.5rem;      /* 24px */
+  --font-size-3xl: 1.875rem;    /* 30px */
+  --font-size-4xl: 2.25rem;     /* 36px */
+  --font-size-5xl: 3rem;        /* 48px */
+
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+  
+  --spacing-xs: 0.25rem;    /* 4px */
+  --spacing-sm: 0.5rem;     /* 8px */
+  --spacing-md: 1rem;       /* 16px */
+  --spacing-lg: 1.5rem;     /* 24px */
+  --spacing-xl: 2rem;       /* 32px */
+  --spacing-2xl: 3rem;      /* 48px */
+  --spacing-3xl: 4rem;      /* 64px */
+  
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-xl: 16px;
+  --border-radius-full: 9999px;
+  
+  --border-width-thin: 1px;
+  --border-width-medium: 2px;
+  --border-width-thick: 4px;
+  
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.15);
+  --shadow-xl: 0 8px 32px rgba(0, 0, 0, 0.2);
+  
+  --transition-fast: 150ms ease-in-out;
+  --transition-normal: 300ms ease-in-out;
+  --transition-slow: 500ms ease-in-out;
+  
+  --z-index-dropdown: 1000;
+  --z-index-sticky: 1020;
+  --z-index-fixed: 1030;
+  --z-index-modal-backdrop: 1040;
+  --z-index-modal: 1050;
+  --z-index-popover: 1060;
+  --z-index-tooltip: 1070;
+
+  /* Phone-centric breakpoints (app is Capacitor-only, no desktop layout to support) */
+  --breakpoint-sm: 360px;
+  --breakpoint-md: 600px;
+  --breakpoint-lg: 900px;
+
+  /* Minimum comfortable touch target (iOS HIG / Material Design) */
+  --tap-target-min: 44px;
+
+  /* Native chrome */
+  --tab-bar-height: 56px;
+  --safe-area-top: env(safe-area-inset-top, 0px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-text-primary: #f8f9fa;
+    --color-text-secondary: #adb5bd;
+    --color-text-muted: #6c757d;
+    
+    --color-bg-primary: #212529;
+    --color-bg-secondary: #343a40;
+    --color-bg-dark: #f8f9fa;
+    
+    --color-border: #495057;
+    --color-border-light: #343a40;
+    --color-border-dark: #6c757d;
+  }
+}

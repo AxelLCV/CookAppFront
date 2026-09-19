@@ -1,124 +1,115 @@
+import { useForm, useFieldArray } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { useState } from 'react';
-import type { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Clock, Flame, Snowflake, Star, Trash2, Users } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { createRecipe } from '../../api/recipes';
-import type { CreateRecipeInput } from '../../types/recipes';
 import { ROUTES } from '@/config/routes';
 import './CreateRecipeForm.css';
+
+const recipeSchema = z.object({
+  name: z.string().min(1, 'Le nom est requis'),
+  slug: z.string().min(1, 'Le slug est requis'),
+  description: z.string().min(1, 'La description est requise'),
+  stages: z.array(z.object({ value: z.string() })),
+  preparationTime: z.coerce.number().min(0),
+  cookingTime: z.coerce.number().min(0),
+  restTime: z.coerce.number().min(0),
+  part: z.coerce.number().min(1).max(20),
+  note: z.coerce.number().min(1).max(10),
+});
+
+type RecipeFormInput = z.input<typeof recipeSchema>;
+type RecipeFormOutput = z.output<typeof recipeSchema>;
+
+function generateSlug(name: string) {
+  return name
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
 
 export function CreateRecipeForm() {
   const navigate = useNavigate();
   const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
 
-  const [formData, setFormData] = useState<CreateRecipeInput>({
-    slug: '',
-    name: '',
-    description: '',
-    stage: [''],  // ← Commencer avec une étape vide
-    images: [],
-    part: 4,
-    note: 5,
-    preparationTime: 15,
-    cookingTime: 30,
-    restTime: 0,
+  const {
+    register,
+    handleSubmit,
+    control,
+    setValue,
+    formState: { errors, isSubmitting },
+  } = useForm<RecipeFormInput, unknown, RecipeFormOutput>({
+    resolver: zodResolver(recipeSchema),
+    defaultValues: {
+      name: '',
+      slug: '',
+      description: '',
+      stages: [{ value: '' }],
+      part: 4,
+      note: 5,
+      preparationTime: 15,
+      cookingTime: 30,
+      restTime: 0,
+    },
   });
 
-  const generateSlug = (name: string) => {
-    return name
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, '');
-  };
+  const { fields, append, remove } = useFieldArray({ control, name: 'stages' });
 
   const handleNameChange = (name: string) => {
-    setFormData({
-      ...formData,
-      name,
-      slug: generateSlug(name),
-    });
+    setValue('name', name);
+    setValue('slug', generateSlug(name));
   };
 
-  // Ajouter une étape
-  const addStage = () => {
-    setFormData({
-      ...formData,
-      stage: [...formData.stage, ''],
-    });
-  };
-
-  // Modifier une étape
-  const updateStage = (index: number, value: string) => {
-    const newStages = [...formData.stage];
-    newStages[index] = value;
-    setFormData({
-      ...formData,
-      stage: newStages,
-    });
-  };
-
-  // Supprimer une étape
-  const removeStage = (index: number) => {
-    if (formData.stage.length > 1) {
-      const newStages = formData.stage.filter((_, i) => i !== index);
-      setFormData({
-        ...formData,
-        stage: newStages,
-      });
-    }
-  };
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (data: RecipeFormOutput) => {
     setError('');
-    setIsLoading(true);
 
-    // Filtrer les étapes vides
-    const dataToSend = {
-      ...formData,
-      stage: formData.stage.filter(s => s.trim() !== ''),
-    };
-
-    // Validation : au moins une étape
-    if (dataToSend.stage.length === 0) {
+    const stage = data.stages.map((s) => s.value.trim()).filter((s) => s !== '');
+    if (stage.length === 0) {
       setError('Ajoutez au moins une étape de préparation');
-      setIsLoading(false);
       return;
     }
 
     try {
-      await createRecipe(dataToSend);
+      await createRecipe({
+        name: data.name,
+        slug: data.slug,
+        description: data.description,
+        stage,
+        part: data.part,
+        note: data.note,
+        preparationTime: data.preparationTime,
+        cookingTime: data.cookingTime,
+        restTime: data.restTime,
+      });
+      navigate(ROUTES.RECIPES);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Erreur lors de la création');
-    } finally {
-      setIsLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="recipe-form">
+    <form onSubmit={handleSubmit(onSubmit)} className="recipe-form" noValidate>
       <h2>Créer une recette</h2>
-      
+
       {error && <div className="error-message">{error}</div>}
-      
-      {/* Nom */}
+
       <div className="form-group">
         <label htmlFor="name">Nom de la recette *</label>
         <input
           id="name"
           type="text"
-          value={formData.name}
-          onChange={(e) => handleNameChange(e.target.value)}
           placeholder="Ex: Tarte aux pommes"
-          required
-          disabled={isLoading}
+          disabled={isSubmitting}
+          {...register('name', { onChange: (e) => handleNameChange(e.target.value) })}
         />
+        {errors.name && <span className="field-error">{errors.name.message}</span>}
       </div>
 
-      {/* Slug */}
       <div className="form-group">
         <label htmlFor="slug">
           URL (slug) *
@@ -127,55 +118,51 @@ export function CreateRecipeForm() {
         <input
           id="slug"
           type="text"
-          value={formData.slug}
-          onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
           placeholder="tarte-aux-pommes"
-          required
-          disabled={isLoading}
+          disabled={isSubmitting}
+          {...register('slug')}
         />
+        {errors.slug && <span className="field-error">{errors.slug.message}</span>}
       </div>
 
-      {/* Description */}
       <div className="form-group">
         <label htmlFor="description">Description *</label>
         <textarea
           id="description"
-          value={formData.description}
-          onChange={(e) => setFormData({ ...formData, description: e.target.value })}
           placeholder="Décrivez votre recette..."
           rows={4}
-          required
-          disabled={isLoading}
+          disabled={isSubmitting}
+          {...register('description')}
         />
+        {errors.description && <span className="field-error">{errors.description.message}</span>}
       </div>
 
-      {/* Étapes (array) */}
       <div className="form-group">
         <label>
           Étapes de préparation *
           <span className="hint">Ajoutez autant d'étapes que nécessaire</span>
         </label>
-        
+
         <div className="stages-list">
-          {formData.stage.map((stage, index) => (
-            <div key={index} className="stage-item">
+          {fields.map((field, index) => (
+            <div key={field.id} className="stage-item">
               <span className="stage-number">{index + 1}.</span>
               <textarea
-                value={stage}
-                onChange={(e) => updateStage(index, e.target.value)}
                 placeholder={`Étape ${index + 1}`}
                 rows={2}
-                disabled={isLoading}
+                disabled={isSubmitting}
+                {...register(`stages.${index}.value` as const)}
               />
-              {formData.stage.length > 1 && (
+              {fields.length > 1 && (
                 <button
                   type="button"
-                  onClick={() => removeStage(index)}
+                  onClick={() => remove(index)}
                   className="remove-stage-btn"
-                  disabled={isLoading}
+                  disabled={isSubmitting}
                   title="Supprimer cette étape"
+                  aria-label="Supprimer cette étape"
                 >
-                  ✕
+                  <Trash2 size={18} />
                 </button>
               )}
             </div>
@@ -183,101 +170,61 @@ export function CreateRecipeForm() {
         </div>
 
         <Button
+          type="button"
           variant="secondary"
-          onClick={addStage}
-          disabled={isLoading}
+          onClick={() => append({ value: '' })}
+          disabled={isSubmitting}
         >
-          ➕ Ajouter une étape
+          Ajouter une étape
         </Button>
       </div>
 
-      {/* Temps */}
       <div className="form-row">
         <div className="form-group">
-          <label htmlFor="preparationTime">⏱️ Préparation (min) *</label>
-          <input
-            id="preparationTime"
-            type="number"
-            value={formData.preparationTime}
-            onChange={(e) => setFormData({ ...formData, preparationTime: parseInt(e.target.value) || 0 })}
-            min="0"
-            required
-            disabled={isLoading}
-          />
+          <label htmlFor="preparationTime"><Clock size={16} /> Préparation (min) *</label>
+          <input id="preparationTime" type="number" min="0" disabled={isSubmitting} {...register('preparationTime')} />
+          {errors.preparationTime && <span className="field-error">{errors.preparationTime.message}</span>}
         </div>
 
         <div className="form-group">
-          <label htmlFor="cookingTime">🔥 Cuisson (min) *</label>
-          <input
-            id="cookingTime"
-            type="number"
-            value={formData.cookingTime}
-            onChange={(e) => setFormData({ ...formData, cookingTime: parseInt(e.target.value) || 0 })}
-            min="0"
-            required
-            disabled={isLoading}
-          />
+          <label htmlFor="cookingTime"><Flame size={16} /> Cuisson (min) *</label>
+          <input id="cookingTime" type="number" min="0" disabled={isSubmitting} {...register('cookingTime')} />
+          {errors.cookingTime && <span className="field-error">{errors.cookingTime.message}</span>}
         </div>
 
         <div className="form-group">
-          <label htmlFor="restTime">🧊 Repos (min)</label>
-          <input
-            id="restTime"
-            type="number"
-            value={formData.restTime}
-            onChange={(e) => setFormData({ ...formData, restTime: parseInt(e.target.value) || 0 })}
-            min="0"
-            disabled={isLoading}
-          />
+          <label htmlFor="restTime"><Snowflake size={16} /> Repos (min)</label>
+          <input id="restTime" type="number" min="0" disabled={isSubmitting} {...register('restTime')} />
+          {errors.restTime && <span className="field-error">{errors.restTime.message}</span>}
         </div>
       </div>
 
-      {/* Portions et Note */}
       <div className="form-row">
         <div className="form-group">
-          <label htmlFor="part">👥 Portions *</label>
-          <input
-            id="part"
-            type="number"
-            value={formData.part}
-            onChange={(e) => setFormData({ ...formData, part: parseInt(e.target.value) || 1 })}
-            min="1"
-            max="20"
-            required
-            disabled={isLoading}
-          />
+          <label htmlFor="part"><Users size={16} /> Portions *</label>
+          <input id="part" type="number" min="1" max="20" disabled={isSubmitting} {...register('part')} />
+          {errors.part && <span className="field-error">{errors.part.message}</span>}
         </div>
 
         <div className="form-group">
-          <label htmlFor="note">⭐ Difficulté (1-10) *</label>
-          <input
-            id="note"
-            type="number"
-            value={formData.note}
-            onChange={(e) => setFormData({ ...formData, note: parseInt(e.target.value) || 5 })}
-            min="1"
-            max="10"
-            required
-            disabled={isLoading}
-          />
+          <label htmlFor="note"><Star size={16} /> Difficulté (1-10) *</label>
+          <input id="note" type="number" min="1" max="10" disabled={isSubmitting} {...register('note')} />
+          {errors.note && <span className="field-error">{errors.note.message}</span>}
         </div>
       </div>
 
-      {/* Boutons */}
       <div className="form-actions">
-        <Button 
+        <Button
+          type="button"
           variant="secondary"
           onClick={() => navigate(ROUTES.RECIPES)}
-          disabled={isLoading}
+          disabled={isSubmitting}
         >
           Annuler
         </Button>
-        
-        <Button 
-          variant="primary"
-          disabled={isLoading}
-        >
-          {isLoading ? 'Création...' : 'Créer la recette'}
+
+        <Button type="submit" variant="primary" disabled={isSubmitting}>
+          {isSubmitting ? 'Création...' : 'Créer la recette'}
         </Button>
       </div>
     </form>

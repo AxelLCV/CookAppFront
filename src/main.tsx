@@ -1,21 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { CapacitorUpdater } from '@capgo/capacitor-updater'
 import { AuthProvider } from './features/auth/context'
+import { checkForUpdate } from './utils/checkForUpdate'
 import './i18n'
 import App from './App'
-
-import { registerSW } from 'virtual:pwa-register'
-
-const updateSW = registerSW({
-  onNeedRefresh() {
-    console.log('Nouvelle version disponible')
-    updateSW(true)
-  },
-  onOfflineReady() {
-    console.log('App prête hors ligne')
-  },
-})
-
+import './styles/variables.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -24,3 +14,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </AuthProvider>
   </React.StrictMode>
 )
+
+CapacitorUpdater.notifyAppReady()
+checkForUpdate()

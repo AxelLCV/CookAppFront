@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { ROUTES } from '@/config/routes';
+import { useTranslation } from 'react-i18next';
 
 type ProtectedRouteProps = {
   children: ReactNode;
@@ -9,8 +10,8 @@ type ProtectedRouteProps = {
 
 export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { isAuthenticated, isLoading } = useAuth();
+  const { t } = useTranslation('auth');
 
-  // Pendant le chargement, afficher un loader
   if (isLoading) {
     return (
       <div style={{ 
@@ -19,16 +20,14 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
         alignItems: 'center', 
         minHeight: '100vh' 
       }}>
-        <p>Chargement...</p>
+        <p>{t("loading")}</p>
       </div>
     );
   }
 
-  // Si pas authentifié, rediriger vers /login
   if (!isAuthenticated) {
     return <Navigate to={ROUTES.HOME} replace />;
   }
 
-  // Si authentifié, afficher le contenu
   return <>{children}</>;
 }

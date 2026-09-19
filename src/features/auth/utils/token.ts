@@ -1,13 +1,16 @@
+import { Preferences } from '@capacitor/preferences';
+
 const TOKEN_KEY = 'auth_token';
 
-export function saveToken(token: string): void {
-  localStorage.setItem(TOKEN_KEY, token);
+export async function saveToken(token: string): Promise<void> {
+  await Preferences.set({ key: TOKEN_KEY, value: token });
 }
 
-export function getToken(): string | null {
-  return localStorage.getItem(TOKEN_KEY);
+export async function getToken(): Promise<string | null> {
+  const { value } = await Preferences.get({ key: TOKEN_KEY });
+  return value;
 }
 
-export function removeToken(): void {
-  localStorage.removeItem(TOKEN_KEY);
+export async function removeToken(): Promise<void> {
+  await Preferences.remove({ key: TOKEN_KEY });
 }

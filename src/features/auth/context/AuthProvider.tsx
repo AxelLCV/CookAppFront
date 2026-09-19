@@ -14,8 +14,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const token = getToken();
-    if (token) {
+    getToken().then((token) => {
+      if (!token) {
+        setIsLoading(false);
+        return;
+      }
       getCurrentUser()
         .then((user) => {
           setUser(user);
@@ -25,21 +28,18 @@ export function AuthProvider({ children }: AuthProviderProps) {
           removeToken();
           setIsLoading(false);
         });
-    } else {
-      setIsLoading(false);
-    }
+    });
   }, []);
 
   const login = async (credentials: LoginCredentials) => {
     const response = await apiLogin(credentials);
-    saveToken(response.token);
+    await saveToken(response.token);
     setUser(response.user);
-    console.log(response.user);
   };
 
   const register = async (data: RegisterData) => {
     const response = await apiRegister(data);
-    saveToken(response.token);
+    await saveToken(response.token);
     setUser(response.user);
   };
 

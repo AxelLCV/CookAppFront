@@ -1,118 +1,90 @@
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { useState } from 'react';
-import type { FormEvent } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { Button } from '@/components/ui/Button';
 import './RegisterForm.css';
 
+const registerSchema = z.object({
+  username: z.string().min(1, 'Le nom est requis'),
+  email: z.string().min(1, 'L\'email est requis').email('Email invalide'),
+  password: z.string().min(8, 'Le mot de passe doit contenir au moins 8 caractères'),
+  confirmPassword: z.string().min(1, 'La confirmation est requise'),
+  languageId: z.coerce.number().int().nonnegative(),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: 'Les mots de passe ne correspondent pas',
+  path: ['confirmPassword'],
+});
+
+type RegisterFormInput = z.input<typeof registerSchema>;
+type RegisterFormOutput = z.output<typeof registerSchema>;
+
 export function RegisterForm() {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [languageId, setLanguageId] = useState(0);
   const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  
-  const { register } = useAuth();
+  const { register: registerUser } = useAuth();
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<RegisterFormInput, unknown, RegisterFormOutput>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: { languageId: 0 },
+  });
+
+  const onSubmit = async (data: RegisterFormOutput) => {
     setError('');
-
-    // Validation
-    if (password !== confirmPassword) {
-      setError('Les mots de passe ne correspondent pas');
-      return;
-    }
-
-    if (password.length < 8) {
-      setError('Le mot de passe doit contenir au moins 8 caractères');
-      return;
-    }
-
-    setIsLoading(true);
-
     try {
-      await register({ username, email, password, languageId});
+      await registerUser({
+        username: data.username,
+        email: data.email,
+        password: data.password,
+        languageId: data.languageId,
+      });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Erreur d\'inscription');
-    } finally {
-      setIsLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="register-form">
+    <form onSubmit={handleSubmit(onSubmit)} className="register-form" noValidate>
       <h2>Inscription</h2>
-      
+
       {error && <div className="error-message">{error}</div>}
-      
+
       <div className="form-group">
-        <label htmlFor="name">Nom</label>
-        <input
-          id="name"
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-          disabled={isLoading}
-        />
+        <label htmlFor="username">Nom</label>
+        <input id="username" type="text" disabled={isSubmitting} {...register('username')} />
+        {errors.username && <span className="field-error">{errors.username.message}</span>}
       </div>
 
       <div className="form-group">
         <label htmlFor="email">Email</label>
-        <input
-          id="email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          disabled={isLoading}
-        />
+        <input id="email" type="email" disabled={isSubmitting} {...register('email')} />
+        {errors.email && <span className="field-error">{errors.email.message}</span>}
       </div>
 
       <div className="form-group">
         <label htmlFor="password">Mot de passe</label>
-        <input
-          id="password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          disabled={isLoading}
-          minLength={8}
-        />
+        <input id="password" type="password" disabled={isSubmitting} {...register('password')} />
+        {errors.password && <span className="field-error">{errors.password.message}</span>}
       </div>
 
       <div className="form-group">
         <label htmlFor="confirmPassword">Confirmer le mot de passe</label>
-        <input
-          id="confirmPassword"
-          type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          required
-          disabled={isLoading}
-        />
+        <input id="confirmPassword" type="password" disabled={isSubmitting} {...register('confirmPassword')} />
+        {errors.confirmPassword && <span className="field-error">{errors.confirmPassword.message}</span>}
       </div>
 
       <div className="form-group">
-        <label htmlFor="Country">Country</label>
-        <input
-          id="country"
-          type="number"
-          value={languageId}
-          onChange={(e) => setLanguageId(parseInt(e.target.value))}
-          required
-          disabled={isLoading}
-        />
+        <label htmlFor="languageId">Country</label>
+        <input id="languageId" type="number" disabled={isSubmitting} {...register('languageId')} />
+        {errors.languageId && <span className="field-error">{errors.languageId.message}</span>}
       </div>
 
-      <Button 
-        variant="primary"
-        disabled={isLoading}
-      >
-        {isLoading ? 'Inscription...' : 'S\'inscrire'}
+      <Button type="submit" variant="primary" disabled={isSubmitting}>
+        {isSubmitting ? 'Inscription...' : 'S\'inscrire'}
       </Button>
     </form>
   );

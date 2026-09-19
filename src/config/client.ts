@@ -1,3 +1,5 @@
+import { getToken } from '@/features/auth/utils/token';
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 if (!API_URL) {
@@ -8,8 +10,8 @@ export async function apiClient<T>(
   endpoint: string,
   options?: RequestInit
 ): Promise<T> {
-  const token = localStorage.getItem('auth_token'); // JWT si nécessaire
-  
+  const token = await getToken();
+
   const response = await fetch(`${API_URL}${endpoint}`, {
     credentials: 'include',
     headers: {

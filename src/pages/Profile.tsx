@@ -1,12 +1,17 @@
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/features/auth';
+import { Button } from '@/components/ui/Button';
+import './Profile.css';
 
 export function Profile() {
-  const { user } = useAuth();
+  const { t } = useTranslation('common');
+  const { user, logout } = useAuth();
+
   return (
-    <div>
+    <div className="profile-page">
       <h1>Mon Profil</h1>
-      <p>Informations du profil</p>
       <p>Bonjour {user?.username}</p>
+      <Button variant="danger" onClick={logout}>{t('home.logoff')}</Button>
     </div>
   );
 }

@@ -1,0 +1,25 @@
+.home-hero {
+  background-image: url('https://images.pexels.com/photos/25243829/pexels-photo-25243829.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  padding-top: var(--safe-area-top);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: calc(var(--spacing-xl) + var(--safe-area-top)) var(--spacing-xl) calc(var(--spacing-xl) + var(--safe-area-bottom));
+}
+
+.home-hero-title {
+  text-align: center;
+  color: var(--color-text-white);
+  font-size: var(--font-size-4xl);
+  text-shadow: var(--shadow-lg);
+}
+
+.home-hero-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: center;
+}

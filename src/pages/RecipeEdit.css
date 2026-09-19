@@ -1,0 +1,7 @@
+.recipe-edit-page {
+  padding: var(--spacing-lg);
+}
+
+.recipe-edit-placeholder {
+  color: var(--color-text-muted);
+}

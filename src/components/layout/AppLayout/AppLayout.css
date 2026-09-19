@@ -1,0 +1,8 @@
+.app-layout {
+  min-height: 100vh;
+  padding-top: var(--safe-area-top);
+}
+
+.app-layout-content {
+  padding-bottom: calc(var(--tab-bar-height) + var(--safe-area-bottom) + var(--spacing-md));
+}

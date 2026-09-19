@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { Heart } from 'lucide-react';
 import { Button } from './Button';
 
 const meta: Meta<typeof Button> = {
@@ -40,7 +41,20 @@ export const Danger: Story = {
 // Story 4 : Bouton avec icône
 export const WithIcon: Story = {
   args: {
-    children: '⭐ Favoris',
+    children: (
+      <>
+        <Heart size={16} /> Favoris
+      </>
+    ),
+    variant: 'primary',
+  },
+};
+
+// Story 4b : Bouton de soumission de formulaire
+export const Submit: Story = {
+  args: {
+    children: 'Valider',
+    type: 'submit',
     variant: 'primary',
   },
 };

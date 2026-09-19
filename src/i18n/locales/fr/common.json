@@ -1,8 +1,32 @@
 {
     "home": {
-        "welcome": "Bienvenue sur cette appli de cuisine",
+        "welcome": "Weekcook",
         "login": "Connexion",
         "logoff": "Déconnexion",
         "register": "Inscription"
+    },
+    "tabBar": {
+        "navigation": "Navigation principale",
+        "recipes": "Recettes",
+        "favorites": "Favoris",
+        "new": "Ajouter",
+        "profile": "Profil"
+    },
+    "recipes": {
+        "title": "Mes recettes",
+        "loading": "Chargement des recettes...",
+        "error": "Impossible de charger les recettes.",
+        "retry": "Réessayer",
+        "empty": "Aucune recette pour le moment.",
+        "emptyCta": "Créer une recette",
+        "minutes": "min",
+        "person": "personne",
+        "people": "personnes",
+        "editTitle": "Modifier la recette",
+        "editComingSoon": "La modification de la recette {{id}} sera bientôt disponible."
+    },
+    "favorites": {
+        "title": "Favoris",
+        "empty": "Vous n'avez pas encore de favoris."
     }
 }

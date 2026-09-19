@@ -7,3 +7,9 @@ export async function createRecipe(data: CreateRecipeInput): Promise<Recipe> {
     body: JSON.stringify(data),
   });
 }
+
+export async function getRecipes(): Promise<Recipe[]> {
+  return apiClient('/recipes', {
+    method: 'GET',
+  });
+}
