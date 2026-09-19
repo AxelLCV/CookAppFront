@@ -13,8 +13,11 @@ import {
 import { ROUTES } from '@/config/routes';
 import { ProtectedRoute } from '@/features/auth';
 import { AppLayout } from '@/components/layout/AppLayout';
+import { useAndroidBackButton } from '@/hooks/useAndroidBackButton';
 
 function App() {
+  useAndroidBackButton();
+
   return (
     <BrowserRouter>
       <Routes>
@@ -32,9 +35,9 @@ function App() {
           }
         >
           <Route path={ROUTES.RECIPES} element={<RecipesList />} />
-          <Route path="/recipes/:id" element={<RecipeDetail />} />
+          <Route path="/recipes/:slug" element={<RecipeDetail />} />
           <Route path={ROUTES.RECIPE_NEW} element={<RecipeForm />} />
-          <Route path="/recipes/:id/edit" element={<RecipeEdit />} />
+          <Route path="/recipes/:slug/edit" element={<RecipeEdit />} />
           <Route path={ROUTES.FAVORITES} element={<Favorites />} />
           <Route path={ROUTES.PROFILE} element={<Profile />} />
         </Route>

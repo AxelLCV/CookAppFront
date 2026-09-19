@@ -1,0 +1,7 @@
+.recipe-detail-page {
+  padding: var(--spacing-lg);
+}
+
+.recipe-detail-placeholder {
+  color: var(--color-text-muted);
+}

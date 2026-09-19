@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Clock, ImageOff, Star, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import type { Recipe } from '../../types/recipes';
+import { ROUTES } from '@/config/routes';
 import './RecipeCard.css';
 
 type RecipeCardProps = {
@@ -15,7 +16,7 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
   const imageUrl = recipe.images?.[0];
 
   return (
-    <Link to={`/recipes/${recipe.slug}`} className="recipe-card">
+    <Link to={ROUTES.RECIPE_DETAIL(recipe.slug)} className="recipe-card">
       <div className="recipe-card-image">
         {imageUrl ? (
           <img src={imageUrl} alt={translation?.name || 'Recette'} />

@@ -1,12 +1,15 @@
-//import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import './RecipeDetail.css';
 
 export function RecipeDetail() {
-  //const { id } = useParams();
-  
+  const { slug } = useParams();
+  const { t } = useTranslation('common');
+
   return (
-    <div>
-      <h1>Détail de la recette</h1>
-     {/*<p>Recette ID: {id}</p>*/}
+    <div className="recipe-detail-page">
+      <h1>{t('recipes.detailTitle')}</h1>
+      <p className="recipe-detail-placeholder">{t('recipes.detailComingSoon', { slug })}</p>
     </div>
   );
 }

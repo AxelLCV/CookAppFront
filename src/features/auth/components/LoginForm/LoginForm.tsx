@@ -2,20 +2,22 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../hooks/useAuth';
 import { Button } from '@/components/ui/Button';
 import './LoginForm.css';
 
-const loginSchema = z.object({
-  email: z.string().min(1, 'L\'email est requis').email('Email invalide'),
-  password: z.string().min(1, 'Le mot de passe est requis'),
-});
-
-type LoginFormValues = z.infer<typeof loginSchema>;
-
 export function LoginForm() {
+  const { t } = useTranslation('auth');
   const [error, setError] = useState('');
   const { login } = useAuth();
+
+  const loginSchema = z.object({
+    email: z.string().min(1, t('loginForm.emailRequired')).email(t('loginForm.emailInvalid')),
+    password: z.string().min(1, t('loginForm.passwordRequired')),
+  });
+
+  type LoginFormValues = z.infer<typeof loginSchema>;
 
   const {
     register,
@@ -30,18 +32,18 @@ export function LoginForm() {
     try {
       await login(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erreur de connexion');
+      setError(err instanceof Error ? err.message : t('loginForm.genericError'));
     }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="login-form" noValidate>
-      <h2>Connexion</h2>
+      <h2>{t('loginForm.title')}</h2>
 
       {error && <div className="error-message">{error}</div>}
 
       <div className="form-group">
-        <label htmlFor="email">Email</label>
+        <label htmlFor="email">{t('loginForm.emailLabel')}</label>
         <input
           id="email"
           type="email"
@@ -52,7 +54,7 @@ export function LoginForm() {
       </div>
 
       <div className="form-group">
-        <label htmlFor="password">Mot de passe</label>
+        <label htmlFor="password">{t('loginForm.passwordLabel')}</label>
         <input
           id="password"
           type="password"
@@ -63,7 +65,7 @@ export function LoginForm() {
       </div>
 
       <Button type="submit" variant="primary" disabled={isSubmitting}>
-        {isSubmitting ? 'Connexion...' : 'Se connecter'}
+        {isSubmitting ? t('loginForm.submitting') : t('loginForm.submit')}
       </Button>
     </form>
   );

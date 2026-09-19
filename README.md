@@ -1,73 +1,29 @@
-# React + TypeScript + Vite
+# Weekcook — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+App mobile React + TypeScript + Vite, packagée en app Android via Capacitor.
 
-Currently, two official plugins are available:
+## Scripts
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- `npm run dev` — serveur de développement web (navigateur, pour itérer vite sur l'UI).
+- `npm run build` — build de production (`dist/`).
+- `npm run lint` — ESLint.
+- `npm run storybook` — développement de composants isolés (voir ci-dessous).
+- `npm run build-storybook` — build statique de Storybook.
+- `npm run generate` — build web + sync Capacitor + compile l'APK Android.
+- `npm run cap:sync` — build web + sync Capacitor (sans compiler l'APK).
+- `npm run cap:open:android` — ouvre le projet Android dans Android Studio.
+- `npm run ota:publish` — build + publie une mise à jour OTA (voir `ota-server/`).
 
-## React Compiler
+## Développer une page ou un composant
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Storybook est le socle pour développer un composant en isolation, sans avoir à naviguer dans toute l'app ni être connecté :
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+npm run storybook
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Le décorateur global (`.storybook/preview.tsx`) fournit déjà un contexte d'auth mocké, un router (`MemoryRouter`) et l'i18n — les composants utilisant `useAuth()`, `useTranslation()`, `<Link>`/`useNavigate()` fonctionnent directement dans une story sans setup supplémentaire.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Mises à jour OTA
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Le code JS/CSS peut être mis à jour sans repasser par le Play Store ni un nouvel APK, via `ota-server/` (service Railway dédié). Voir `scripts/publish-ota.ps1`.

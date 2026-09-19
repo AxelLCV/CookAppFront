@@ -3,13 +3,13 @@ import { useTranslation } from 'react-i18next';
 import './RecipeEdit.css';
 
 export function RecipeEdit() {
-  const { id } = useParams();
+  const { slug } = useParams();
   const { t } = useTranslation('common');
 
   return (
     <div className="recipe-edit-page">
       <h1>{t('recipes.editTitle')}</h1>
-      <p className="recipe-edit-placeholder">{t('recipes.editComingSoon', { id })}</p>
+      <p className="recipe-edit-placeholder">{t('recipes.editComingSoon', { slug })}</p>
     </div>
   );
 }

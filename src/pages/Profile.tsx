@@ -9,8 +9,8 @@ export function Profile() {
 
   return (
     <div className="profile-page">
-      <h1>Mon Profil</h1>
-      <p>Bonjour {user?.username}</p>
+      <h1>{t('profile.title')}</h1>
+      <p>{t('profile.greeting', { username: user?.username })}</p>
       <Button variant="danger" onClick={logout}>{t('home.logoff')}</Button>
     </div>
   );

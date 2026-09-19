@@ -15,6 +15,10 @@ const config: CapacitorConfig = {
     StatusBar: {
       style: 'light',
     },
+    Keyboard: {
+      resize: 'body',
+      resizeOnFullScreen: true,
+    },
     CapacitorUpdater: {
       version: '0.0.0',
       autoUpdate: 'off',

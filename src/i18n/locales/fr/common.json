@@ -8,7 +8,7 @@
     "tabBar": {
         "navigation": "Navigation principale",
         "recipes": "Recettes",
-        "favorites": "Favorise",
+        "favorites": "Favoris",
         "new": "Ajouter",
         "profile": "Profil"
     },
@@ -23,10 +23,44 @@
         "person": "personne",
         "people": "personnes",
         "editTitle": "Modifier la recette",
-        "editComingSoon": "La modification de la recette {{id}} sera bientôt disponible."
+        "editComingSoon": "La modification de la recette {{slug}} sera bientôt disponible.",
+        "detailTitle": "Détail de la recette",
+        "detailComingSoon": "Les détails de la recette {{slug}} seront bientôt disponibles."
     },
     "favorites": {
         "title": "Favoris",
         "empty": "Vous n'avez pas encore de favoris."
+    },
+    "recipeForm": {
+        "title": "Créer une recette",
+        "nameLabel": "Nom de la recette *",
+        "namePlaceholder": "Ex: Tarte aux pommes",
+        "slugLabel": "URL (slug) *",
+        "slugHint": "Généré automatiquement, modifiable",
+        "slugPlaceholder": "tarte-aux-pommes",
+        "descriptionLabel": "Description *",
+        "descriptionPlaceholder": "Décrivez votre recette...",
+        "stagesLabel": "Étapes de préparation *",
+        "stagesHint": "Ajoutez autant d'étapes que nécessaire",
+        "stagePlaceholder": "Étape {{index}}",
+        "removeStage": "Supprimer cette étape",
+        "addStage": "Ajouter une étape",
+        "preparationLabel": "Préparation (min) *",
+        "cookingLabel": "Cuisson (min) *",
+        "restLabel": "Repos (min)",
+        "partLabel": "Portions *",
+        "noteLabel": "Difficulté (1-10) *",
+        "cancel": "Annuler",
+        "submitting": "Création...",
+        "submit": "Créer la recette",
+        "nameRequired": "Le nom est requis",
+        "slugRequired": "Le slug est requis",
+        "descriptionRequired": "La description est requise",
+        "stageRequired": "Ajoutez au moins une étape de préparation",
+        "genericError": "Erreur lors de la création"
+    },
+    "profile": {
+        "title": "Mon Profil",
+        "greeting": "Bonjour {{username}}"
     }
 }

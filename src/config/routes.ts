@@ -3,9 +3,9 @@ export const ROUTES = {
   LOGIN: '/login',
   REGISTER: '/register',
   RECIPES: '/recipes',
-  RECIPE_DETAIL: (id: string) => `/recipes/${id}`,
+  RECIPE_DETAIL: (slug: string) => `/recipes/${slug}`,
   RECIPE_NEW: '/recipes/new',
-  RECIPE_EDIT: (id: string) => `/recipes/${id}/edit`,
+  RECIPE_EDIT: (slug: string) => `/recipes/${slug}/edit`,
   FAVORITES: '/favorites',
   PROFILE: '/profile',
 } as const;

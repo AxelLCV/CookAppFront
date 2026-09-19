@@ -1,16 +1,18 @@
 import type { Preview } from '@storybook/react-vite'
-import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
 import { AuthProviderMock } from './mocks/AuthProviderMock';
+import '../src/i18n';
 import '../src/styles/variables.css';
+import '../src/styles/forms.css';
 
 const preview: Preview = {
   decorators: [
     (Story) => (
-      <React.Fragment>
+      <MemoryRouter initialEntries={['/']}>
         <AuthProviderMock>
           <Story />
         </AuthProviderMock>
-      </React.Fragment>
+      </MemoryRouter>
     ),
   ],
 
