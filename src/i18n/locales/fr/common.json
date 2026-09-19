@@ -8,7 +8,7 @@
     "tabBar": {
         "navigation": "Navigation principale",
         "recipes": "Recettes",
-        "favorites": "Favoris",
+        "favorites": "Favorise",
         "new": "Ajouter",
         "profile": "Profil"
     },
