@@ -18,6 +18,7 @@ export function RecipesList() {
     getRecipes()
       .then((data) => {
         setRecipes(data);
+        console.log(data)
         setState('ready');
       })
       .catch(() => {

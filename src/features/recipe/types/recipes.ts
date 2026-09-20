@@ -10,6 +10,7 @@ export type CreateRecipeInput = {
   restTime?: number;
   stage: string[];
   isPublished?: boolean;
+  ingredients?: { ingredientId: number; unitId: number; quantity: number }[];
 };
 
 export type Recipe = {
@@ -32,7 +33,25 @@ export type RecipeTranslation = {
   id: string;
   name: string;
   description: string;
-  stage: string;
+  stage: string[];
   languageId: number;
   recipeId: string;
 }
+
+export type NamedEntity = {
+  id: number;
+  translations: { name: string }[];
+};
+
+export type RecipeIngredientDetail = {
+  quantity: number;
+  ingredient: NamedEntity;
+  unit: NamedEntity & { type: string };
+};
+
+export type RecipeDetail = Recipe & {
+  ingredients: RecipeIngredientDetail[];
+  ustensils: { ustensil: NamedEntity }[];
+  tags: { tag: NamedEntity }[];
+  wines: { wine: NamedEntity }[];
+};

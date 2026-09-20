@@ -6,7 +6,10 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Clock, Flame, Snowflake, Star, Trash2, Users } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { useAuth } from '@/features/auth';
 import { createRecipe } from '../../api/recipes';
+import { IngredientsField, type IngredientEntry } from '../IngredientsField';
+import { ImagesField } from '../ImagesField';
 import { ROUTES } from '@/config/routes';
 import './CreateRecipeForm.css';
 
@@ -22,7 +25,11 @@ function generateSlug(name: string) {
 export function CreateRecipeForm() {
   const { t } = useTranslation('common');
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const isAdmin = user?.roles?.includes('ADMIN') ?? false;
   const [error, setError] = useState('');
+  const [ingredients, setIngredients] = useState<IngredientEntry[]>([]);
+  const [images, setImages] = useState<string[]>([]);
 
   const recipeSchema = z.object({
     name: z.string().min(1, t('recipeForm.nameRequired')),
@@ -87,6 +94,8 @@ export function CreateRecipeForm() {
         preparationTime: data.preparationTime,
         cookingTime: data.cookingTime,
         restTime: data.restTime,
+        ingredients: ingredients.length > 0 ? ingredients : undefined,
+        images: images.length > 0 ? images : undefined,
       });
       navigate(ROUTES.RECIPES);
     } catch (err) {
@@ -180,6 +189,10 @@ export function CreateRecipeForm() {
           {t('recipeForm.addStage')}
         </Button>
       </div>
+
+      <ImagesField disabled={isSubmitting} onChange={setImages} />
+
+      <IngredientsField isAdmin={isAdmin} disabled={isSubmitting} onChange={setIngredients} />
 
       <div className="form-row">
         <div className="form-group">

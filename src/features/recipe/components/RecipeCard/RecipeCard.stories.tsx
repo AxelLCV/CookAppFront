@@ -20,7 +20,7 @@ const baseRecipe: Recipe = {
       id: '1',
       name: 'Tarte aux pommes',
       description: 'Une tarte aux pommes classique et gourmande.',
-      stage: '',
+      stage: [],
       languageId: 1,
       recipeId: '1',
     },

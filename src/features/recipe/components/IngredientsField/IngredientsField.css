@@ -1,0 +1,138 @@
+.ingredient-search-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+}
+
+.ingredient-search {
+  position: relative;
+  flex: 1;
+}
+
+.add-ingredient-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--tap-target-min);
+  min-height: var(--tap-target-min);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--border-radius-sm);
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.add-ingredient-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ingredient-create-panel {
+  margin-top: var(--spacing-sm);
+  padding: var(--spacing-md);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  background: var(--color-bg-secondary);
+}
+
+.ingredient-create-panel .form-group {
+  margin-bottom: var(--spacing-sm);
+}
+
+.ingredient-create-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  justify-content: flex-end;
+}
+
+.ingredient-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: var(--z-index-dropdown);
+  margin-top: var(--spacing-xs);
+  padding: 0;
+  list-style: none;
+  background: var(--color-bg-primary);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-md);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.ingredient-suggestions li button {
+  display: block;
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+}
+
+.ingredient-suggestions li button:hover {
+  background: var(--color-bg-secondary);
+}
+
+.inline-select-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.inline-select-row select {
+  flex: 1;
+}
+
+.ingredient-rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
+}
+
+.ingredient-row-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.ingredient-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.ingredient-row-name {
+  flex: 1;
+  font-size: var(--font-size-sm);
+}
+
+.ingredient-row-quantity {
+  width: 70px;
+}
+
+.ingredient-row-unit {
+  flex: 0 0 auto;
+}
+
+.remove-ingredient-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--tap-target-min);
+  min-height: var(--tap-target-min);
+  border: none;
+  border-radius: var(--border-radius-sm);
+  background-color: var(--color-danger-light);
+  color: var(--color-danger);
+  cursor: pointer;
+}
+
+.remove-ingredient-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
