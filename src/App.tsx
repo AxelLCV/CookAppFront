@@ -5,7 +5,6 @@ import {
   RecipeDetail,
   RecipeForm,
   RecipeEdit,
-  Favorites,
   Profile,
   Login,
   Register
@@ -38,7 +37,6 @@ function App() {
           <Route path="/recipes/:slug" element={<RecipeDetail />} />
           <Route path={ROUTES.RECIPE_NEW} element={<RecipeForm />} />
           <Route path="/recipes/:slug/edit" element={<RecipeEdit />} />
-          <Route path={ROUTES.FAVORITES} element={<Favorites />} />
           <Route path={ROUTES.PROFILE} element={<Profile />} />
         </Route>
 
