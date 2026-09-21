@@ -8,9 +8,10 @@
     "tabBar": {
         "navigation": "Navigation principale",
         "recipes": "Recettes",
-        "favorites": "Favoris",
-        "new": "Ajouter",
-        "profile": "Profil"
+        "myRecipes": "Mes Recettes",
+        "planner": "Planning",
+        "Kitchen": "Cuisine",
+        "ShoppingList": "Listes de courses"
     },
     "recipes": {
         "title": "Mes recettes",

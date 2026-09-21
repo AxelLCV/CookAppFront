@@ -39,3 +39,31 @@
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
 }
+
+.tab-bar-item-fab {
+  position: relative;
+}
+
+.tab-bar-fab-circle {
+  position: absolute;
+  top: calc(-1 * var(--spacing-lg));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  color: #ffffff;
+  box-shadow: var(--shadow-md);
+}
+
+.tab-bar-item-fab .tab-bar-label {
+  margin-top: 30px;
+}
+
+.tab-bar-item-fab:active .tab-bar-fab-circle {
+  background-color: var(--color-primary-hover);
+}

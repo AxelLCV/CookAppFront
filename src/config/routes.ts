@@ -6,6 +6,9 @@ export const ROUTES = {
   RECIPE_DETAIL: (slug: string) => `/recipes/${slug}`,
   RECIPE_NEW: '/recipes/new',
   RECIPE_EDIT: (slug: string) => `/recipes/${slug}/edit`,
-  FAVORITES: '/favorites',
+  MY_RECIPES: '/myRecipes',
+  KITCHEN: '/kitchen',
+  SHOPPING_LIST: '/shoppingList',
+  PLANNER: '/planner',
   PROFILE: '/profile',
 } as const;

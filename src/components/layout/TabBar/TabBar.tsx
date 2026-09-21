@@ -1,14 +1,15 @@
 import { NavLink } from 'react-router-dom';
-import { BookOpen, Heart, PlusCircle, User } from 'lucide-react';
+import { BookOpen, ChefHat, Refrigerator, Calendar, ListTodo } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { ROUTES } from '@/config/routes';
 import './TabBar.css';
 
 const TABS = [
   { to: ROUTES.RECIPES, icon: BookOpen, labelKey: 'tabBar.recipes' },
-  { to: ROUTES.FAVORITES, icon: Heart, labelKey: 'tabBar.favorites' },
-  { to: ROUTES.RECIPE_NEW, icon: PlusCircle, labelKey: 'tabBar.new' },
-  { to: ROUTES.PROFILE, icon: User, labelKey: 'tabBar.profile' },
+  { to: ROUTES.MY_RECIPES, icon: ChefHat, labelKey: 'tabBar.myRecipes' },
+  { to: ROUTES.PLANNER, icon: Calendar, labelKey: 'tabBar.planner' },
+  { to: ROUTES.KITCHEN, icon: Refrigerator, labelKey: 'tabBar.Kitchen' },
+  { to: ROUTES.SHOPPING_LIST, icon: ListTodo, labelKey: 'tabBar.ShoppingList' },
 ] as const;
 
 export function TabBar() {
@@ -21,10 +22,23 @@ export function TabBar() {
           key={to}
           to={to}
           end={to === ROUTES.RECIPES}
-          className={({ isActive }) => `tab-bar-item${isActive ? ' tab-bar-item-active' : ''}`}
+          className={({ isActive }) =>
+            `tab-bar-item${isActive ? ' tab-bar-item-active' : ''}${to === ROUTES.PLANNER ? ' tab-bar-item-fab' : ''}`
+          }
         >
-          <Icon size={22} strokeWidth={2} />
-          <span className="tab-bar-label">{t(labelKey)}</span>
+          {to === ROUTES.PLANNER ? (
+            <>
+              <span className="tab-bar-fab-circle">
+                <Icon size={28} strokeWidth={2} />
+              </span>
+              <span className="tab-bar-label">{t(labelKey)}</span>
+            </>
+          ) : (
+            <>
+              <Icon size={22} strokeWidth={2} />
+              <span className="tab-bar-label">{t(labelKey)}</span>
+            </>
+          )}
         </NavLink>
       ))}
     </nav>
