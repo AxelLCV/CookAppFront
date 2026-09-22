@@ -3,7 +3,7 @@ export { RecipesList } from './RecipesList';
 export { RecipeDetail } from './RecipeDetail';
 export { RecipeForm } from './RecipeForm';
 export { RecipeEdit } from './RecipeEdit';
-export { Favorites } from './Favorites';
+export { UnderConstruction } from './UnderConstruction';
 export { Profile } from './Profile';
 export { Login } from './Login';
 export { Register } from './Register';

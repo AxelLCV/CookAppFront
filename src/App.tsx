@@ -7,7 +7,8 @@ import {
   RecipeEdit,
   Profile,
   Login,
-  Register
+  Register,
+  UnderConstruction
 } from './pages';
 import { ROUTES } from '@/config/routes';
 import { ProtectedRoute } from '@/features/auth';
@@ -38,6 +39,16 @@ function App() {
           <Route path={ROUTES.RECIPE_NEW} element={<RecipeForm />} />
           <Route path="/recipes/:slug/edit" element={<RecipeEdit />} />
           <Route path={ROUTES.PROFILE} element={<Profile />} />
+
+          {/* Pages pas encore développées */}
+          <Route path={ROUTES.MY_RECIPES} element={<RecipesList filter="mine" />} />
+          <Route path={ROUTES.PLANNER} element={<UnderConstruction titleKey="tabBar.planner" />} />
+          <Route path={ROUTES.KITCHEN} element={<UnderConstruction titleKey="tabBar.Kitchen" />} />
+          <Route path={ROUTES.SHOPPING_LIST} element={<UnderConstruction titleKey="tabBar.ShoppingList" />} />
+          <Route path={ROUTES.FAVORITES} element={<RecipesList filter="favorites" />} />
+          <Route path={ROUTES.ADD_INGREDIENTS} element={<UnderConstruction titleKey="tabBar.AddIngredients" />} />
+          <Route path={ROUTES.ADD_ELEMENTS} element={<UnderConstruction titleKey="tabBar.AddElements" />} />
+          <Route path={ROUTES.NEW_PROMPT} element={<UnderConstruction titleKey="tabBar.NewPrompt" />} />
         </Route>
 
         {/* Route 404 */}

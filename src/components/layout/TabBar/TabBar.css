@@ -67,3 +67,19 @@
 .tab-bar-item-fab:active .tab-bar-fab-circle {
   background-color: var(--color-primary-hover);
 }
+
+.tab-bar-extra-button {
+  position: fixed;
+  right: var(--spacing-md);
+  bottom: calc(var(--tab-bar-height) + var(--safe-area-bottom) + var(--spacing-sm));
+  z-index: var(--z-index-fixed);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  color: #ffffff;
+  box-shadow: var(--shadow-md);
+}

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ChefHat, Clock, ImageOff, ListOrdered, Star, Tag, UtensilsCrossed, Users, Wine } from 'lucide-react';
-import { getRecipe, type RecipeDetail as RecipeDetailData } from '@/features/recipe';
+import { ChefHat, Clock, Heart, ImageOff, ListOrdered, Star, Tag, UtensilsCrossed, Users, Wine } from 'lucide-react';
+import { getRecipe, toggleFavorite, type RecipeDetail as RecipeDetailData } from '@/features/recipe';
 import { Button } from '@/components/ui/Button';
 import './RecipeDetail.css';
 
@@ -29,6 +29,14 @@ export function RecipeDetail() {
     if (!slug) return;
     setState('loading');
     fetchRecipe(slug);
+  };
+
+  const handleToggleFavorite = () => {
+    if (!slug || !recipe) return;
+    setRecipe({ ...recipe, isFavorited: !recipe.isFavorited });
+    toggleFavorite(slug).catch(() => {
+      setRecipe((current) => current && { ...current, isFavorited: !current.isFavorited });
+    });
   };
 
   useEffect(() => {
@@ -67,7 +75,17 @@ export function RecipeDetail() {
       )}
 
       <div className="recipe-detail-content">
-        <h1 className="recipe-detail-title">{translation?.name ?? t('recipeForm.unnamedIngredient')}</h1>
+        <div className="recipe-detail-header">
+          <h1 className="recipe-detail-title">{translation?.name ?? t('recipeForm.unnamedIngredient')}</h1>
+          <button
+            type="button"
+            className={`recipe-detail-favorite${recipe.isFavorited ? ' recipe-detail-favorite-active' : ''}`}
+            onClick={handleToggleFavorite}
+            aria-label={t(recipe.isFavorited ? 'recipeDetail.removeFavorite' : 'recipeDetail.addFavorite')}
+          >
+            <Heart size={22} fill={recipe.isFavorited ? 'currentColor' : 'none'} />
+          </button>
+        </div>
 
         <div className="recipe-detail-meta">
           <span className="meta-item">

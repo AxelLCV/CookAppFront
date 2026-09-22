@@ -9,11 +9,27 @@ export async function createRecipe(data: CreateRecipeInput): Promise<Recipe> {
   return response.result;
 }
 
-export async function getRecipes(): Promise<Recipe[]> {
-  const response = await apiClient<{ data: Recipe[] }>('/recipes', {
+export type GetRecipesFilters = {
+  authorId?: string;
+  favoritedByMe?: boolean;
+};
+
+export async function getRecipes(filters?: GetRecipesFilters): Promise<Recipe[]> {
+  const params = new URLSearchParams();
+  if (filters?.authorId) params.set('authorId', filters.authorId);
+  if (filters?.favoritedByMe) params.set('favoritedByMe', 'true');
+  const query = params.toString();
+
+  const response = await apiClient<{ data: Recipe[] }>(`/recipes${query ? `?${query}` : ''}`, {
     method: 'GET',
   });
   return response.data;
+}
+
+export async function toggleFavorite(slug: string): Promise<{ isFavorited: boolean }> {
+  return apiClient<{ isFavorited: boolean }>(`/recipes/${slug}/favorite`, {
+    method: 'POST',
+  });
 }
 
 export async function getRecipe(slug: string): Promise<RecipeDetail> {

@@ -26,6 +26,7 @@ export type Recipe = {
   createdAt: string;
   modifiedAt: string;
   authorId: string;
+  isFavorited?: boolean;
   translations: RecipeTranslation[];
 }
 

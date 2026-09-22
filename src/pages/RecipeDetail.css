@@ -39,9 +39,40 @@
   margin: 0 auto;
 }
 
+.recipe-detail-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+}
+
 .recipe-detail-title {
   font-size: var(--font-size-2xl);
   margin-bottom: var(--spacing-md);
+}
+
+.recipe-detail-favorite {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.recipe-detail-favorite:active {
+  transform: scale(0.95);
+}
+
+.recipe-detail-favorite-active {
+  color: var(--color-primary);
+  background: var(--color-primary-light);
 }
 
 .recipe-detail-meta {

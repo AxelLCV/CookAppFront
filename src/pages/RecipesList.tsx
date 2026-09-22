@@ -5,20 +5,29 @@ import { useTranslation } from 'react-i18next';
 import { getRecipes, RecipeCard, type Recipe } from '@/features/recipe';
 import { Button } from '@/components/ui/Button';
 import { ROUTES } from '@/config/routes';
+import { useAuth } from '@/features/auth';
 import './RecipesList.css';
 
 type LoadState = 'loading' | 'error' | 'ready';
+type RecipesListFilter = 'all' | 'mine' | 'favorites';
 
-export function RecipesList() {
+type RecipesListProps = {
+  filter?: RecipesListFilter;
+};
+
+export function RecipesList({ filter = 'all' }: RecipesListProps) {
   const { t } = useTranslation('common');
+  const { user } = useAuth();
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [state, setState] = useState<LoadState>('loading');
 
   const fetchRecipes = () => {
-    getRecipes()
+    getRecipes({
+      authorId: filter === 'mine' ? user?.id : undefined,
+      favoritedByMe: filter === 'favorites' ? true : undefined,
+    })
       .then((data) => {
         setRecipes(data);
-        console.log(data)
         setState('ready');
       })
       .catch(() => {
@@ -33,7 +42,7 @@ export function RecipesList() {
 
   useEffect(() => {
     fetchRecipes();
-  }, []);
+  }, [filter, user?.id]);
 
   return (
     <div className="recipes-list-page">

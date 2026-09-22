@@ -8,10 +8,14 @@
     "tabBar": {
         "navigation": "Navigation principale",
         "recipes": "Recettes",
-        "myRecipes": "Mes Recettes",
+        "myRecipes": "Créations",
         "planner": "Planning",
         "Kitchen": "Cuisine",
-        "ShoppingList": "Listes de courses"
+        "ShoppingList": "Courses",
+        "newRecipe": "Nouvelle recette"
+    },
+    "underConstruction": {
+        "message": "Cette page est en cours de construction."
     },
     "recipes": {
         "title": "Mes recettes",
@@ -33,7 +37,9 @@
         "stepsTitle": "Préparation",
         "ustensilsTitle": "Ustensiles",
         "tagsTitle": "Tags",
-        "winesTitle": "Accord vin"
+        "winesTitle": "Accord vin",
+        "addFavorite": "Ajouter aux favoris",
+        "removeFavorite": "Retirer des favoris"
     },
     "favorites": {
         "title": "Favoris",
