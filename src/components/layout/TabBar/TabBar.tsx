@@ -45,6 +45,7 @@ export function TabBar() {
           >
             {to === ROUTES.PLANNER ? (
               <>
+                <span className="tab-bar-fab-spacer" aria-hidden="true" />
                 <span className="tab-bar-fab-circle">
                   <Icon size={28} strokeWidth={2} />
                 </span>

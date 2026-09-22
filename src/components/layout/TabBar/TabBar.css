@@ -44,9 +44,15 @@
   position: relative;
 }
 
+.tab-bar-fab-spacer {
+  display: block;
+  width: 22px;
+  height: 22px;
+}
+
 .tab-bar-fab-circle {
   position: absolute;
-  top: calc(-1 * var(--spacing-lg));
+  top: calc(-1 * var(--spacing-2xl));
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -58,10 +64,6 @@
   background-color: var(--color-primary);
   color: #ffffff;
   box-shadow: var(--shadow-md);
-}
-
-.tab-bar-item-fab .tab-bar-label {
-  margin-top: 30px;
 }
 
 .tab-bar-item-fab:active .tab-bar-fab-circle {
