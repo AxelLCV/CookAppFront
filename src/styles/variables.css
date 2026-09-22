@@ -1,5 +1,5 @@
 :root {
-  --color-primary: #bb0c0c;
+  --color-primary: #ED9555;
   --color-primary-hover: #8f0909;
   --color-primary-light: #fbe4e4;
   
@@ -106,6 +106,7 @@
   --tap-target-min: 44px;
 
   /* Native chrome */
+  --header-height: 56px;
   --tab-bar-height: 56px;
   --safe-area-top: env(safe-area-inset-top, 0px);
   --safe-area-bottom: env(safe-area-inset-bottom, 0px);
@@ -116,8 +117,8 @@
     --color-text-secondary: #adb5bd;
     --color-text-muted: #6c757d;
     
-    --color-bg-primary: #212529;
-    --color-bg-secondary: #343a40;
+    --color-bg-primary: #fcf5dc;
+    --color-bg-secondary: #3a5038;
     --color-bg-dark: #f8f9fa;
     
     --color-border: #495057;

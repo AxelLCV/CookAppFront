@@ -28,6 +28,10 @@ export async function apiClient<T>(
     throw new Error(error || `Erreur API: ${response.status}`);
   }
 
+  if (response.status === 204) {
+    return undefined as T;
+  }
+
   return response.json();
 }
 

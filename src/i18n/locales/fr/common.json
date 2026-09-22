@@ -5,6 +5,10 @@
         "logoff": "Déconnexion",
         "register": "Inscription"
     },
+    "header": {
+        "settings": "Paramètres du profil",
+        "noHousehold": "Aucune maison"
+    },
     "tabBar": {
         "navigation": "Navigation principale",
         "recipes": "Recettes",
