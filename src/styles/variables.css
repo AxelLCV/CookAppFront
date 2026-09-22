@@ -106,8 +106,8 @@
   --tap-target-min: 44px;
 
   /* Native chrome */
-  --header-height: 56px;
-  --tab-bar-height: 56px;
+  --header-height: 28px;
+  --tab-bar-height: 30px;
   --safe-area-top: env(safe-area-inset-top, 0px);
   --safe-area-bottom: env(safe-area-inset-bottom, 0px);
 }
