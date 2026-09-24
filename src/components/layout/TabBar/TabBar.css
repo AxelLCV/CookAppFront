@@ -32,7 +32,7 @@
 }
 
 .tab-bar-item-active {
-  color: var(--color-primary);
+  color: var(--color-secondary);
 }
 
 .tab-bar-label {
@@ -52,7 +52,7 @@
 
 .tab-bar-fab-circle {
   position: absolute;
-  top: calc(-1 * var(--spacing-2xl));
+  top: calc(-1 * var(--spacing-xl));
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -61,13 +61,13 @@
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background-color: var(--color-primary);
-  color: #ffffff;
+  background-color: var(--color-secondary);
+  color: var(--color-text-secondary);
   box-shadow: var(--shadow-md);
 }
 
 .tab-bar-item-fab:active .tab-bar-fab-circle {
-  background-color: var(--color-primary-hover);
+  background-color: var(--color-secondary-hover);
 }
 
 .tab-bar-extra-button {
@@ -81,7 +81,7 @@
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background-color: var(--color-primary);
-  color: #ffffff;
+  background-color: var(--color-secondary);
+  color: var(--color-text-secondary);
   box-shadow: var(--shadow-md);
 }

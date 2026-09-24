@@ -28,13 +28,7 @@
 }
 
 .recipes-list-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: var(--spacing-md);
-}
-
-@media (min-width: 600px) {
-  .recipes-list-grid {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  }
 }

@@ -17,7 +17,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-text-secondary);
+  color: var(--color-primary);
   flex-shrink: 0;
 }
 
@@ -26,6 +26,8 @@
   min-width: 0;
   text-align: center;
   font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-xl);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

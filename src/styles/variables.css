@@ -1,10 +1,10 @@
 :root {
-  --color-primary: #ED9555;
-  --color-primary-hover: #8f0909;
+  --color-primary: #3a5038;
+  --color-primary-hover: #3a5038;
   --color-primary-light: #fbe4e4;
   
-  --color-secondary: #6c757d;
-  --color-secondary-hover: #545b62;
+  --color-secondary: #ED9555;
+  --color-secondary-hover: #ED9555;
   --color-secondary-light: #f8f9fa;
   
   --color-danger: #dc3545;
@@ -24,13 +24,13 @@
   --color-info-hover: #138496;
   --color-info-light: #d1ecf1;
 
-  --color-text-primary: #212529;
-  --color-text-secondary: #6c757d;
+  --color-text-primary: #3a5038;
+  --color-text-secondary: #fcf5dc;
   --color-text-muted: #adb5bd;
   --color-text-white: #ffffff;
   
-  --color-bg-primary: #ffffff;
-  --color-bg-secondary: #f8f9fa;
+  --color-bg-primary: #fcf5dc;
+  --color-bg-secondary: #3a5038;
   --color-bg-dark: #343a40;
   --color-bg-overlay: rgba(0, 0, 0, 0.5);
 
@@ -106,18 +106,19 @@
   --tap-target-min: 44px;
 
   /* Native chrome */
-  --header-height: 28px;
-  --tab-bar-height: 30px;
+  --header-height:45px;
+  --tab-bar-height: 50px;
   --safe-area-top: env(safe-area-inset-top, 0px);
   --safe-area-bottom: env(safe-area-inset-bottom, 0px);
 }
+/*
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-text-primary: #f8f9fa;
-    --color-text-secondary: #adb5bd;
+    --color-text-primary: #ffffff;
+    --color-text-secondary: #fcf5dc;
     --color-text-muted: #6c757d;
     
-    --color-bg-primary: #fcf5dc;
+    --color-bg-primary: #343a40;
     --color-bg-secondary: #3a5038;
     --color-bg-dark: #f8f9fa;
     
@@ -125,4 +126,4 @@
     --color-border-light: #343a40;
     --color-border-dark: #6c757d;
   }
-}
+}*/

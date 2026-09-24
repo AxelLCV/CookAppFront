@@ -40,7 +40,7 @@ export function CreateRecipeForm() {
     cookingTime: z.coerce.number().min(0),
     restTime: z.coerce.number().min(0),
     part: z.coerce.number().min(1).max(20),
-    note: z.coerce.number().min(1).max(10),
+    note: z.coerce.number().min(0).max(5),
   });
 
   type RecipeFormInput = z.input<typeof recipeSchema>;
@@ -223,7 +223,7 @@ export function CreateRecipeForm() {
 
         <div className="form-group">
           <label htmlFor="note"><Star size={16} /> {t('recipeForm.noteLabel')}</label>
-          <input id="note" type="number" min="1" max="10" disabled={isSubmitting} {...register('note')} />
+          <input id="note" type="number" min="0" max="5" step="0.1" disabled={isSubmitting} {...register('note')} />
           {errors.note && <span className="field-error">{errors.note.message}</span>}
         </div>
       </div>

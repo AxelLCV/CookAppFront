@@ -1,8 +1,10 @@
 .recipe-card {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: stretch;
   background-color: var(--color-bg-primary);
   border-radius: var(--border-radius-lg);
+  border-bottom: var(--border-width-thin) solid var(--color-primary);
   box-shadow: var(--shadow-md);
   overflow: hidden;
   text-decoration: none;
@@ -16,7 +18,9 @@
 
 .recipe-card-image {
   position: relative;
-  aspect-ratio: 4 / 3;
+  width: 40%;
+  aspect-ratio: 1;
+  flex-shrink: 0;
   background-color: var(--color-bg-secondary);
 }
 
@@ -36,22 +40,9 @@
   color: var(--color-text-muted);
 }
 
-.recipe-difficulty {
-  position: absolute;
-  top: var(--spacing-sm);
-  right: var(--spacing-sm);
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px var(--spacing-sm);
-  background-color: rgba(0, 0, 0, 0.6);
-  color: var(--color-text-white);
-  border-radius: var(--border-radius-full);
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
-}
-
 .recipe-card-content {
+  flex: 1;
+  min-width: 0;
   padding: var(--spacing-md);
   display: flex;
   flex-direction: column;
@@ -87,4 +78,29 @@
   gap: 4px;
   font-size: var(--font-size-xs);
   color: var(--color-text-muted);
+}
+
+.recipe-card-rating {
+  position: relative;
+  display: inline-flex;
+  color: var(--color-primary);
+}
+
+.recipe-card-rating-track,
+.recipe-card-rating-fill {
+  display: flex;
+  gap: 2px;
+}
+
+.recipe-card-rating-track svg,
+.recipe-card-rating-fill svg {
+  flex-shrink: 0;
+}
+
+.recipe-card-rating-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  white-space: nowrap;
 }

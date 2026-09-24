@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Clock, ImageOff, Star, Users } from 'lucide-react';
+import { Clock, ImageOff, Star } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import type { Recipe } from '../../types/recipes';
 import { ROUTES } from '@/config/routes';
@@ -25,11 +25,6 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
             <ImageOff size={28} strokeWidth={1.5} />
           </div>
         )}
-        {recipe.note > 0 && (
-          <div className="recipe-difficulty">
-            <Star size={14} fill="currentColor" /> {recipe.note}/10
-          </div>
-        )}
       </div>
 
       <div className="recipe-card-content">
@@ -43,8 +38,20 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
           <span className="meta-item">
             <Clock size={14} /> {totalTime} {t('recipes.minutes')}
           </span>
-          <span className="meta-item">
-            <Users size={14} /> {recipe.part} {recipe.part > 1 ? t('recipes.people') : t('recipes.person')}
+          <span className="recipe-card-rating" aria-label={`${recipe.note}/5`}>
+            <span className="recipe-card-rating-track">
+              {[1, 2, 3, 4, 5].map((value) => (
+                <Star key={value} size={14} fill="none" />
+              ))}
+            </span>
+            <span
+              className="recipe-card-rating-fill"
+              style={{ width: `${Math.max(0, Math.min(100, (recipe.note / 5) * 100))}%` }}
+            >
+              {[1, 2, 3, 4, 5].map((value) => (
+                <Star key={value} size={14} fill="currentColor" />
+              ))}
+            </span>
           </span>
         </div>
       </div>

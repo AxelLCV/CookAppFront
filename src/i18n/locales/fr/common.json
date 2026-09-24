@@ -67,7 +67,7 @@
         "cookingLabel": "Cuisson (min) *",
         "restLabel": "Repos (min)",
         "partLabel": "Portions *",
-        "noteLabel": "Difficulté (1-10) *",
+        "noteLabel": "Note (0-5) *",
         "cancel": "Annuler",
         "submitting": "Création...",
         "submit": "Créer la recette",
@@ -111,6 +111,9 @@
         "photoSourceTitle": "Ajouter une photo",
         "photoSourceCamera": "Prendre une photo",
         "photoSourceGallery": "Choisir depuis la galerie",
+        "cropInstructions": "Faites glisser la photo pour choisir la partie à garder",
+        "cropZoom": "Zoom",
+        "cropConfirm": "Valider",
         "genericError": "Erreur lors de la création"
     },
     "profile": {

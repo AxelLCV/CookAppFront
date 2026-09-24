@@ -7,7 +7,7 @@ const baseRecipe: Recipe = {
   slug: 'tarte-aux-pommes',
   images: [],
   part: 4,
-  note: 8,
+  note: 4.2,
   preparationTime: 15,
   cookingTime: 30,
   restTime: 0,

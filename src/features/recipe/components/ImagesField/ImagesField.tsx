@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Trash2 } from 'lucide-react';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Button } from '@/components/ui/Button';
+import { ImageCropModal } from '../ImageCropModal';
 import { uploadRecipeImages } from '../../api/uploads';
 import './ImagesField.css';
 
@@ -22,6 +23,7 @@ export function ImagesField({ disabled, onChange }: ImagesFieldProps) {
   const [images, setImages] = useState<string[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState('');
+  const [pendingPhotoUrl, setPendingPhotoUrl] = useState<string | null>(null);
 
   const handleAddPhoto = async () => {
     setError('');
@@ -37,9 +39,23 @@ export function ImagesField({ disabled, onChange }: ImagesFieldProps) {
       });
       if (!photo.webPath) return;
 
-      const blob = await (await fetch(photo.webPath)).blob();
-      const format = photo.format === 'jpg' ? 'jpeg' : photo.format;
-      const file = new File([blob], `photo-${Date.now()}.${format}`, { type: `image/${format}` });
+      setPendingPhotoUrl(photo.webPath);
+    } catch (err) {
+      if (isUserCancelled(err)) return;
+      setError(err instanceof Error ? err.message : t('recipeForm.genericError'));
+    }
+  };
+
+  const handleCropCancel = () => {
+    setPendingPhotoUrl(null);
+  };
+
+  const handleCropConfirm = async (blob: Blob) => {
+    setPendingPhotoUrl(null);
+    setError('');
+
+    try {
+      const file = new File([blob], `photo-${Date.now()}.jpg`, { type: 'image/jpeg' });
 
       setIsUploading(true);
       const uploadedUrls = await uploadRecipeImages([file]);
@@ -47,7 +63,6 @@ export function ImagesField({ disabled, onChange }: ImagesFieldProps) {
       setImages(nextImages);
       onChange(nextImages);
     } catch (err) {
-      if (isUserCancelled(err)) return;
       setError(err instanceof Error ? err.message : t('recipeForm.genericError'));
     } finally {
       setIsUploading(false);
@@ -93,6 +108,10 @@ export function ImagesField({ disabled, onChange }: ImagesFieldProps) {
         <Button type="button" variant="secondary" onClick={handleAddPhoto} disabled={disabled || isUploading}>
           {isUploading ? t('recipeForm.uploadingImages') : t('recipeForm.addImages')}
         </Button>
+      )}
+
+      {pendingPhotoUrl && (
+        <ImageCropModal imageUrl={pendingPhotoUrl} onCancel={handleCropCancel} onConfirm={handleCropConfirm} />
       )}
     </div>
   );
