@@ -1,8 +1,11 @@
+import { useState } from 'react';
+import type { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { Clock, ImageOff, Star } from 'lucide-react';
+import { Clock, Heart, ImageOff, Star } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import type { Recipe } from '../../types/recipes';
 import { ROUTES } from '@/config/routes';
+import { toggleFavorite } from '../../api/recipes';
 import './RecipeCard.css';
 
 type RecipeCardProps = {
@@ -14,6 +17,25 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
   const translation = recipe.translations?.[0];
   const totalTime = recipe.preparationTime + recipe.cookingTime + recipe.restTime;
   const imageUrl = recipe.images?.[0];
+  const [isFavorited, setIsFavorited] = useState(recipe.isFavorited ?? false);
+  const [syncedFavorited, setSyncedFavorited] = useState(recipe.isFavorited ?? false);
+
+  // Keep the local (optimistic) state in sync when the server sends a fresh value,
+  // without wiping out an in-flight optimistic toggle. Done during render (not an
+  // effect) per React's guidance for resetting state when a prop changes.
+  if ((recipe.isFavorited ?? false) !== syncedFavorited) {
+    setSyncedFavorited(recipe.isFavorited ?? false);
+    setIsFavorited(recipe.isFavorited ?? false);
+  }
+
+  const handleToggleFavorite = (event: MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setIsFavorited((current) => !current);
+    toggleFavorite(recipe.slug).catch(() => {
+      setIsFavorited((current) => !current);
+    });
+  };
 
   return (
     <Link to={ROUTES.RECIPE_DETAIL(recipe.slug)} className="recipe-card">
@@ -25,6 +47,14 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
             <ImageOff size={28} strokeWidth={1.5} />
           </div>
         )}
+        <button
+          type="button"
+          className={`recipe-card-favorite${isFavorited ? ' recipe-card-favorite-active' : ''}`}
+          onClick={handleToggleFavorite}
+          aria-label={t(isFavorited ? 'recipeDetail.removeFavorite' : 'recipeDetail.addFavorite')}
+        >
+          <Heart size={16} fill={isFavorited ? 'currentColor' : 'none'} />
+        </button>
       </div>
 
       <div className="recipe-card-content">
