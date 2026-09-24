@@ -32,3 +32,14 @@
   flex-direction: column;
   gap: var(--spacing-md);
 }
+
+.recipes-list-sentinel {
+  display: flex;
+  justify-content: center;
+  min-height: 40px;
+  padding: var(--spacing-md);
+}
+
+.recipes-list-sentinel .recipes-list-status {
+  padding: 0;
+}

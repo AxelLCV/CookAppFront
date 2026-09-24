@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ChefHat, Clock, Heart, ImageOff, ListOrdered, Star, Tag, UtensilsCrossed, Users, Wine } from 'lucide-react';
-import { getRecipe, toggleFavorite, type RecipeDetail as RecipeDetailData } from '@/features/recipe';
+import { getRecipe, toggleFavorite, RecipeStepsList, type RecipeDetail as RecipeDetailData } from '@/features/recipe';
 import { Button } from '@/components/ui/Button';
 import './RecipeDetail.css';
 
@@ -135,14 +135,10 @@ export function RecipeDetail() {
           </section>
         )}
 
-        {translation?.stage && translation.stage.length > 0 && (
+        {recipe.steps.length > 0 && (
           <section className="recipe-detail-section">
             <h2><ListOrdered size={18} /> {t('recipeDetail.stepsTitle')}</h2>
-            <ol className="recipe-detail-steps">
-              {translation.stage.map((step, index) => (
-                <li key={index}>{step}</li>
-              ))}
-            </ol>
+            <RecipeStepsList steps={recipe.steps} />
           </section>
         )}
 

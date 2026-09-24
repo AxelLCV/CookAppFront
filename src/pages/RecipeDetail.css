@@ -135,13 +135,6 @@
   color: var(--color-text-secondary);
 }
 
-.recipe-detail-steps {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
-  padding-left: var(--spacing-lg);
-}
-
 .recipe-detail-chips {
   list-style: none;
   display: flex;

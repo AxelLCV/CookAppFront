@@ -12,18 +12,33 @@ export async function createRecipe(data: CreateRecipeInput): Promise<Recipe> {
 export type GetRecipesFilters = {
   authorId?: string;
   favoritedByMe?: boolean;
+  search?: string;
+  page?: number;
+  limit?: number;
 };
 
-export async function getRecipes(filters?: GetRecipesFilters): Promise<Recipe[]> {
+export type PaginatedRecipes = {
+  data: Recipe[];
+  meta: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+};
+
+export async function getRecipes(filters?: GetRecipesFilters): Promise<PaginatedRecipes> {
   const params = new URLSearchParams();
   if (filters?.authorId) params.set('authorId', filters.authorId);
   if (filters?.favoritedByMe) params.set('favoritedByMe', 'true');
+  if (filters?.search) params.set('search', filters.search);
+  if (filters?.page) params.set('page', String(filters.page));
+  if (filters?.limit) params.set('limit', String(filters.limit));
   const query = params.toString();
 
-  const response = await apiClient<{ data: Recipe[] }>(`/recipes${query ? `?${query}` : ''}`, {
+  return apiClient<PaginatedRecipes>(`/recipes${query ? `?${query}` : ''}`, {
     method: 'GET',
   });
-  return response.data;
 }
 
 export async function toggleFavorite(slug: string): Promise<{ isFavorited: boolean }> {

@@ -3,7 +3,7 @@ import { RecipeCard } from './RecipeCard';
 import type { Recipe } from '../../types/recipes';
 
 const baseRecipe: Recipe = {
-  id: '1',
+  id: 1,
   slug: 'tarte-aux-pommes',
   images: [],
   part: 4,
@@ -17,12 +17,11 @@ const baseRecipe: Recipe = {
   authorId: '1',
   translations: [
     {
-      id: '1',
+      id: 1,
       name: 'Tarte aux pommes',
       description: 'Une tarte aux pommes classique et gourmande.',
-      stage: [],
       languageId: 1,
-      recipeId: '1',
+      recipeId: 1,
     },
   ],
 };

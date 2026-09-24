@@ -4,12 +4,14 @@ import { z } from 'zod';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Clock, Flame, Snowflake, Star, Trash2, Users } from 'lucide-react';
+import { BookOpen, Clock, Flame, Snowflake, Star, Trash2, Users } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { useAuth } from '@/features/auth';
 import { createRecipe } from '../../api/recipes';
+import type { RecipeStepInput } from '../../types/recipes';
 import { IngredientsField, type IngredientEntry } from '../IngredientsField';
 import { ImagesField } from '../ImagesField';
+import { RecipeStepAutocomplete } from './RecipeStepAutocomplete';
 import { ROUTES } from '@/config/routes';
 import './CreateRecipeForm.css';
 
@@ -35,7 +37,12 @@ export function CreateRecipeForm() {
     name: z.string().min(1, t('recipeForm.nameRequired')),
     slug: z.string().min(1, t('recipeForm.slugRequired')),
     description: z.string().min(1, t('recipeForm.descriptionRequired')),
-    stages: z.array(z.object({ value: z.string() })),
+    stages: z.array(z.object({
+      kind: z.enum(['text', 'recipe']),
+      value: z.string().optional(),
+      recipeId: z.number().optional(),
+      recipeName: z.string().optional(),
+    })),
     preparationTime: z.coerce.number().min(0),
     cookingTime: z.coerce.number().min(0),
     restTime: z.coerce.number().min(0),
@@ -58,7 +65,7 @@ export function CreateRecipeForm() {
       name: '',
       slug: '',
       description: '',
-      stages: [{ value: '' }],
+      stages: [{ kind: 'text', value: '' }],
       part: 4,
       note: 5,
       preparationTime: 15,
@@ -77,7 +84,16 @@ export function CreateRecipeForm() {
   const onSubmit = async (data: RecipeFormOutput) => {
     setError('');
 
-    const stage = data.stages.map((s) => s.value.trim()).filter((s) => s !== '');
+    const stage: RecipeStepInput[] = data.stages
+      .map((s): RecipeStepInput | null => {
+        if (s.kind === 'recipe') {
+          return s.recipeId ? { type: 'recipe', recipeId: s.recipeId } : null;
+        }
+        const text = (s.value ?? '').trim();
+        return text ? { type: 'text', text } : null;
+      })
+      .filter((s): s is RecipeStepInput => s !== null);
+
     if (stage.length === 0) {
       setError(t('recipeForm.stageRequired'));
       return;
@@ -158,12 +174,19 @@ export function CreateRecipeForm() {
           {fields.map((field, index) => (
             <div key={field.id} className="stage-item">
               <span className="stage-number">{index + 1}.</span>
-              <textarea
-                placeholder={t('recipeForm.stagePlaceholder', { index: index + 1 })}
-                rows={2}
-                disabled={isSubmitting}
-                {...register(`stages.${index}.value` as const)}
-              />
+              {field.kind === 'recipe' ? (
+                <div className="stage-recipe-chip">
+                  <BookOpen size={16} />
+                  <span>{field.recipeName}</span>
+                </div>
+              ) : (
+                <textarea
+                  placeholder={t('recipeForm.stagePlaceholder', { index: index + 1 })}
+                  rows={2}
+                  disabled={isSubmitting}
+                  {...register(`stages.${index}.value` as const)}
+                />
+              )}
               {fields.length > 1 && (
                 <button
                   type="button"
@@ -180,14 +203,27 @@ export function CreateRecipeForm() {
           ))}
         </div>
 
-        <Button
-          type="button"
-          variant="secondary"
-          onClick={() => append({ value: '' })}
-          disabled={isSubmitting}
-        >
-          {t('recipeForm.addStage')}
-        </Button>
+        <div className="stage-actions">
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={() => append({ kind: 'text', value: '' })}
+            disabled={isSubmitting}
+          >
+            {t('recipeForm.addStage')}
+          </Button>
+
+          <RecipeStepAutocomplete
+            disabled={isSubmitting}
+            onSelect={(recipe) =>
+              append({
+                kind: 'recipe',
+                recipeId: recipe.id,
+                recipeName: recipe.translations[0]?.name ?? t('recipeForm.unnamedIngredient'),
+              })
+            }
+          />
+        </div>
       </div>
 
       <ImagesField disabled={isSubmitting} onChange={setImages} />

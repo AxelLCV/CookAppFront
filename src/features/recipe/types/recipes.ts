@@ -1,3 +1,7 @@
+export type RecipeStepInput =
+  | { type: 'text'; text: string }
+  | { type: 'recipe'; recipeId: number };
+
 export type CreateRecipeInput = {
   name: string;
   slug: string;
@@ -8,13 +12,13 @@ export type CreateRecipeInput = {
   preparationTime?: number;
   cookingTime?: number;
   restTime?: number;
-  stage: string[];
+  stage: RecipeStepInput[];
   isPublished?: boolean;
   ingredients?: { ingredientId: number; unitId: number; quantity: number }[];
 };
 
 export type Recipe = {
-  id: string;
+  id: number;
   slug: string;
   images: string[];
   part: number;
@@ -31,12 +35,11 @@ export type Recipe = {
 }
 
 export type RecipeTranslation = {
-  id: string;
+  id: number;
   name: string;
   description: string;
-  stage: string[];
   languageId: number;
-  recipeId: string;
+  recipeId: number;
 }
 
 export type NamedEntity = {
@@ -50,7 +53,29 @@ export type RecipeIngredientDetail = {
   unit: NamedEntity & { type: string };
 };
 
+export type RecipeStepTextTranslation = {
+  id: number;
+  text: string;
+  languageId: number;
+  stepId: number;
+};
+
+export type ResolvedRecipeStep =
+  | { type: 'text'; translations: RecipeStepTextTranslation[] }
+  | {
+      type: 'recipe';
+      recipe: {
+        id: number;
+        slug: string;
+        translations: { name: string; languageId: number }[];
+      };
+      scale: number;
+      ingredients: RecipeIngredientDetail[];
+      steps: ResolvedRecipeStep[];
+    };
+
 export type RecipeDetail = Recipe & {
+  steps: ResolvedRecipeStep[];
   ingredients: RecipeIngredientDetail[];
   ustensils: { ustensil: NamedEntity }[];
   tags: { tag: NamedEntity }[];

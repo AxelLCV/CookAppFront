@@ -43,7 +43,7 @@
   border: none;
   border-radius: 50%;
   background-color: rgba(0, 0, 0, 0.5);
-  color: #ffffff;
+  color: var(--color-secondary);
   cursor: pointer;
   transition: transform var(--transition-fast);
 }
@@ -53,7 +53,7 @@
 }
 
 .recipe-card-favorite-active {
-  color: var(--color-primary);
+  color: var(--color-secondary);
 }
 
 .recipe-card-image-placeholder {
