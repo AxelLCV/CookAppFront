@@ -1,9 +1,7 @@
 .recipe-form {
   max-width: 600px;
   margin: 0 auto;
-  padding: var(--spacing-xl);
-  border: var(--border-width-thin) solid var(--color-border);
-  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-sm);
   background: var(--color-bg-primary);
 }
 

@@ -45,11 +45,34 @@
         "tagsTitle": "Tags",
         "winesTitle": "Accord vin",
         "addFavorite": "Ajouter aux favoris",
-        "removeFavorite": "Retirer des favoris"
+        "removeFavorite": "Retirer des favoris",
+        "reviewsTitle": "Avis",
+        "reviewsCount_one": "{{count}} avis",
+        "reviewsCount_other": "{{count}} avis",
+        "reviewsEmpty": "Aucun avis pour le moment.",
+        "reviewNoteLabel": "Ta note (0-5)",
+        "reviewDescriptionLabel": "Ton commentaire",
+        "reviewDescriptionPlaceholder": "Qu'as-tu pensé de cette recette ?",
+        "addReview": "Publier mon avis",
+        "updateReview": "Modifier mon avis",
+        "deleteReview": "Supprimer mon avis"
     },
     "favorites": {
         "title": "Favoris",
         "empty": "Vous n'avez pas encore de favoris."
+    },
+    "shoppingList": {
+        "title": "Liste de courses",
+        "loading": "Chargement...",
+        "error": "Impossible de charger la liste de courses.",
+        "empty": "Ta liste de courses est vide.",
+        "noHousehold": "Tu n'as pas encore de maison — crée-en une pour commencer ta liste de courses.",
+        "householdNamePlaceholder": "Nom de la maison",
+        "createHousehold": "Créer ma maison",
+        "addPlaceholder": "Ajouter un article...",
+        "unnamedItem": "Sans nom",
+        "removeItem": "Supprimer cet article",
+        "checkedTitle": "Déjà pris"
     },
     "recipeForm": {
         "title": "Créer une recette",
@@ -122,5 +145,17 @@
     "profile": {
         "title": "Mon Profil",
         "greeting": "Bonjour {{username}}"
+    },
+    "household": {
+        "title": "Mes maisons",
+        "newHouseholdPlaceholder": "Nom de la nouvelle maison",
+        "create": "Créer",
+        "rename": "Renommer",
+        "delete": "Supprimer la maison",
+        "addMemberPlaceholder": "Nom d'utilisateur",
+        "addMember": "Ajouter",
+        "removeMember": "Retirer ce membre",
+        "leave": "Quitter la maison",
+        "genericError": "Une erreur est survenue"
     }
 }

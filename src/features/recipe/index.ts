@@ -1,5 +1,5 @@
 // Components
-export { CreateRecipeForm, RecipeCard, RecipeStepsList } from './components';
+export { CreateRecipeForm, RecipeCard, RecipeStepsList, RecipeReviews } from './components';
 
 // API
 export { createRecipe, getRecipes, getRecipe, toggleFavorite } from './api/recipes';

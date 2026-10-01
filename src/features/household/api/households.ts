@@ -16,6 +16,18 @@ export async function createHousehold(data: CreateHouseholdInput): Promise<House
   return response.result;
 }
 
+export async function updateHousehold(householdId: string, data: CreateHouseholdInput): Promise<Household> {
+  const response = await apiClient<{ result: Household }>(`/households/${householdId}`, {
+    method: 'PATCH',
+    body: JSON.stringify(data),
+  });
+  return response.result;
+}
+
+export async function deleteHousehold(householdId: string): Promise<void> {
+  await apiClient(`/households/${householdId}`, { method: 'DELETE' });
+}
+
 export async function addHouseholdMember(householdId: string, username: string): Promise<void> {
   await apiClient(`/households/${householdId}/members`, {
     method: 'POST',

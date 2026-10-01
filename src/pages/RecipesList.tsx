@@ -99,8 +99,6 @@ export function RecipesList({ filter = 'all' }: RecipesListProps) {
 
   return (
     <div className="recipes-list-page">
-      <h1 className="recipes-list-title">{t('recipes.title')}</h1>
-
       {state === 'loading' && (
         <p className="recipes-list-status">{t('recipes.loading')}</p>
       )}

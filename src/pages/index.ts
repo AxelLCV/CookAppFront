@@ -4,6 +4,7 @@ export { RecipeDetail } from './RecipeDetail';
 export { RecipeForm } from './RecipeForm';
 export { RecipeEdit } from './RecipeEdit';
 export { UnderConstruction } from './UnderConstruction';
+export { ShoppingList } from './ShoppingList';
 export { Profile } from './Profile';
 export { Login } from './Login';
 export { Register } from './Register';

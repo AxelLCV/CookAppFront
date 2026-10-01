@@ -1,0 +1,89 @@
+.recipe-reviews h2 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.recipe-reviews-average {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  color: var(--color-text-secondary);
+}
+
+.recipe-review-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  margin: var(--spacing-md) 0;
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-md);
+  background-color: var(--color-bg-secondary);
+}
+
+.recipe-review-form label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.recipe-review-form input[type="number"] {
+  max-width: 100px;
+}
+
+.recipe-review-form-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-xs);
+}
+
+.recipe-review-delete-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tap-target-min);
+  height: var(--tap-target-min);
+  border: none;
+  border-radius: var(--border-radius-md);
+  background-color: var(--color-danger);
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.recipe-reviews-empty {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.recipe-reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.recipe-review-item {
+  padding-bottom: var(--spacing-md);
+  border-bottom: var(--border-width-thin) solid var(--color-border-light);
+}
+
+.recipe-review-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xs);
+  font-weight: var(--font-weight-semibold);
+}
+
+.recipe-review-note {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+.recipe-review-description {
+  margin: 0;
+  color: var(--color-text-secondary);
+  white-space: pre-wrap;
+}

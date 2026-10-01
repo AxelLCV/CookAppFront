@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/features/auth';
+import { HouseholdManager } from '@/features/household';
 import { Button } from '@/components/ui/Button';
 import './Profile.css';
 
@@ -12,6 +13,8 @@ export function Profile() {
       <h1>{t('profile.title')}</h1>
       <p>{t('profile.greeting', { username: user?.username })}</p>
       <Button variant="danger" onClick={logout}>{t('home.logoff')}</Button>
+
+      <HouseholdManager />
     </div>
   );
 }

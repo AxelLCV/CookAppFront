@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ChefHat, Clock, Heart, ImageOff, ListOrdered, Star, Tag, UtensilsCrossed, Users, Wine } from 'lucide-react';
-import { getRecipe, toggleFavorite, RecipeStepsList, type RecipeDetail as RecipeDetailData } from '@/features/recipe';
+import { getRecipe, toggleFavorite, RecipeStepsList, RecipeReviews, type RecipeDetail as RecipeDetailData } from '@/features/recipe';
 import { Button } from '@/components/ui/Button';
 import './RecipeDetail.css';
 
@@ -96,7 +96,7 @@ export function RecipeDetail() {
           </span>
           {recipe.note > 0 && (
             <span className="meta-item">
-              <Star size={16} fill="currentColor" /> {recipe.note}/10
+              <Star size={16} fill="currentColor" /> {recipe.note}/5
             </span>
           )}
         </div>
@@ -174,6 +174,8 @@ export function RecipeDetail() {
             </ul>
           </section>
         )}
+
+        {slug && <RecipeReviews slug={slug} />}
       </div>
     </div>
   );
