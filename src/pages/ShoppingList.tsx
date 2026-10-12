@@ -1,13 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ShoppingCart, Trash2 } from 'lucide-react';
+import { ShoppingCart, Trash2, WifiOff } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { useAuth } from '@/features/auth';
+import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 import { useHousehold, createHousehold } from '@/features/household';
 import {
-  getShoppingList,
-  addShoppingListItem,
-  updateShoppingListItem,
-  deleteShoppingListItem,
+  loadShoppingList,
+  addItemOffline,
+  toggleItemOffline,
+  deleteItemOffline,
+  syncShoppingList,
+  getPendingCount,
 } from '@/features/household';
 import type { ShoppingListItem } from '@/features/household';
 import { searchIngredients, type IngredientOption } from '@/features/recipe/api/ingredients';
@@ -22,24 +26,32 @@ function itemLabel(item: ShoppingListItem, fallback: string): string {
 
 export function ShoppingList() {
   const { t } = useTranslation('common');
+  const { user } = useAuth();
+  const isOnline = useOnlineStatus();
   const { currentHousehold, isLoading: isHouseholdLoading, refresh, setCurrentHousehold } = useHousehold();
 
   const [items, setItems] = useState<ShoppingListItem[]>([]);
   const [state, setState] = useState<LoadState>('loading');
+  const [pendingCount, setPendingCount] = useState(0);
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState<IngredientOption[]>([]);
   const [isAdding, setIsAdding] = useState(false);
   const [newHouseholdName, setNewHouseholdName] = useState('');
   const [isCreatingHousehold, setIsCreatingHousehold] = useState(false);
 
-  const fetchItems = (householdId: string) => {
+  const fetchItems = async (householdId: string) => {
     setState('loading');
-    getShoppingList(householdId)
-      .then((data) => {
-        setItems(data);
-        setState('ready');
-      })
-      .catch(() => setState('error'));
+    try {
+      if (navigator.onLine) {
+        await syncShoppingList(householdId);
+      }
+      const { items } = await loadShoppingList(householdId);
+      setItems(items);
+      setState('ready');
+    } catch {
+      setState('error');
+    }
+    setPendingCount(await getPendingCount(householdId));
   };
 
   useEffect(() => {
@@ -50,6 +62,18 @@ export function ShoppingList() {
     run();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentHousehold?.id]);
+
+  const wasOnlineRef = useRef(isOnline);
+  useEffect(() => {
+    const run = async () => {
+      if (!wasOnlineRef.current && isOnline && currentHousehold) {
+        fetchItems(currentHousehold.id);
+      }
+      wasOnlineRef.current = isOnline;
+    };
+    run();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOnline, currentHousehold?.id]);
 
   useEffect(() => {
     const trimmed = query.trim();
@@ -66,13 +90,19 @@ export function ShoppingList() {
   }, [query]);
 
   const handleAddIngredient = async (ingredient: IngredientOption) => {
-    if (!currentHousehold) return;
+    if (!currentHousehold || !user) return;
     setQuery('');
     setSuggestions([]);
     setIsAdding(true);
     try {
-      const item = await addShoppingListItem(currentHousehold.id, { ingredientId: ingredient.id });
+      const item = await addItemOffline(
+        currentHousehold.id,
+        { id: user.id, username: user.username },
+        { ingredientId: ingredient.id },
+        ingredient.translations[0]?.name
+      );
       setItems((current) => [item, ...current]);
+      setPendingCount(await getPendingCount(currentHousehold.id));
     } finally {
       setIsAdding(false);
     }
@@ -80,13 +110,14 @@ export function ShoppingList() {
 
   const handleAddCustom = async () => {
     const label = query.trim();
-    if (!currentHousehold || !label) return;
+    if (!currentHousehold || !user || !label) return;
     setQuery('');
     setSuggestions([]);
     setIsAdding(true);
     try {
-      const item = await addShoppingListItem(currentHousehold.id, { customLabel: label });
+      const item = await addItemOffline(currentHousehold.id, { id: user.id, username: user.username }, { customLabel: label });
       setItems((current) => [item, ...current]);
+      setPendingCount(await getPendingCount(currentHousehold.id));
     } finally {
       setIsAdding(false);
     }
@@ -97,7 +128,8 @@ export function ShoppingList() {
     const nextChecked = !item.isChecked;
     setItems((current) => current.map((i) => (i.id === item.id ? { ...i, isChecked: nextChecked } : i)));
     try {
-      await updateShoppingListItem(currentHousehold.id, item.id, { isChecked: nextChecked });
+      await toggleItemOffline(currentHousehold.id, item.id, nextChecked);
+      setPendingCount(await getPendingCount(currentHousehold.id));
     } catch {
       setItems((current) => current.map((i) => (i.id === item.id ? { ...i, isChecked: !nextChecked } : i)));
     }
@@ -106,7 +138,13 @@ export function ShoppingList() {
   const handleRemove = async (item: ShoppingListItem) => {
     if (!currentHousehold) return;
     setItems((current) => current.filter((i) => i.id !== item.id));
-    await deleteShoppingListItem(currentHousehold.id, item.id).catch(() => fetchItems(currentHousehold.id));
+    try {
+      await deleteItemOffline(currentHousehold.id, item.id);
+    } catch {
+      fetchItems(currentHousehold.id);
+      return;
+    }
+    setPendingCount(await getPendingCount(currentHousehold.id));
   };
 
   const handleCreateHousehold = async () => {
@@ -157,6 +195,17 @@ export function ShoppingList() {
   return (
     <div className="shopping-list-page">
       <h1 className="shopping-list-title">{t('shoppingList.title')}</h1>
+
+      {!isOnline && (
+        <div className="shopping-list-offline-banner">
+          <WifiOff size={16} />
+          <span>{t('shoppingList.offlineBanner')}</span>
+        </div>
+      )}
+
+      {pendingCount > 0 && (
+        <p className="shopping-list-pending-count">{t('shoppingList.pendingSync', { count: pendingCount })}</p>
+      )}
 
       <div className="ingredient-search shopping-list-search">
         <input

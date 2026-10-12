@@ -3,7 +3,9 @@ import type { ReactNode } from 'react';
 import { HouseholdContext } from './HouseholdContext';
 import { getMyHouseholds } from '../api/households';
 import { getCurrentHouseholdId, saveCurrentHouseholdId } from '../utils/currentHousehold';
+import { saveCachedHouseholds, getCachedHouseholds } from '../utils/householdCache';
 import { useAuth } from '@/features/auth';
+import { NetworkError } from '@/config/client';
 import type { Household } from '../types/household';
 
 type HouseholdProviderProps = {
@@ -17,7 +19,14 @@ export function HouseholdProvider({ children }: HouseholdProviderProps) {
   const [isLoading, setIsLoading] = useState(true);
 
   const refresh = useCallback(async () => {
-    const data = await getMyHouseholds();
+    let data: Household[];
+    try {
+      data = await getMyHouseholds();
+      await saveCachedHouseholds(data);
+    } catch (err) {
+      if (!(err instanceof NetworkError)) throw err;
+      data = await getCachedHouseholds();
+    }
     setHouseholds(data);
 
     const savedId = await getCurrentHouseholdId();

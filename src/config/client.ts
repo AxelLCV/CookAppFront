@@ -6,13 +6,44 @@ if (!API_URL) {
   throw new Error('VITE_API_URL n\'est pas définie dans les variables d\'environnement');
 }
 
+// Thrown for a response the server actually sent back (4xx/5xx) — the
+// request reached the backend. `status` lets callers tell "token rejected"
+// (401) apart from any other failure.
+export class ApiError extends Error {
+  status: number;
+
+  constructor(message: string, status: number) {
+    super(message);
+    this.name = 'ApiError';
+    this.status = status;
+  }
+}
+
+// Thrown when the request never got a response at all (no connectivity,
+// DNS failure, etc.) — as opposed to ApiError, which means the server did
+// answer, just with an error status.
+export class NetworkError extends Error {
+  constructor() {
+    super('Network request failed');
+    this.name = 'NetworkError';
+  }
+}
+
+async function doFetch(url: string, options?: RequestInit): Promise<Response> {
+  try {
+    return await fetch(url, options);
+  } catch {
+    throw new NetworkError();
+  }
+}
+
 export async function apiClient<T>(
   endpoint: string,
   options?: RequestInit
 ): Promise<T> {
   const token = await getToken();
 
-  const response = await fetch(`${API_URL}${endpoint}`, {
+  const response = await doFetch(`${API_URL}${endpoint}`, {
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
@@ -25,7 +56,7 @@ export async function apiClient<T>(
   if (!response.ok) {
     const error = await response.text();
     console.error(`[apiClient] ${options?.method ?? 'GET'} ${endpoint} -> ${response.status}`, error);
-    throw new Error(error || `Erreur API: ${response.status}`);
+    throw new ApiError(error || `Erreur API: ${response.status}`, response.status);
   }
 
   if (response.status === 204) {
@@ -39,7 +70,7 @@ export async function apiClient<T>(
 export async function apiUpload<T>(endpoint: string, formData: FormData): Promise<T> {
   const token = await getToken();
 
-  const response = await fetch(`${API_URL}${endpoint}`, {
+  const response = await doFetch(`${API_URL}${endpoint}`, {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -51,7 +82,7 @@ export async function apiUpload<T>(endpoint: string, formData: FormData): Promis
   if (!response.ok) {
     const error = await response.text();
     console.error(`[apiUpload] POST ${endpoint} -> ${response.status}`, error);
-    throw new Error(error || `Erreur API: ${response.status}`);
+    throw new ApiError(error || `Erreur API: ${response.status}`, response.status);
   }
 
   return response.json();

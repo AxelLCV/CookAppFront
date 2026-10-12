@@ -10,6 +10,14 @@ export { HouseholdManager } from './components';
 // API
 export { getMyHouseholds, createHousehold, updateHousehold, deleteHousehold, addHouseholdMember, removeHouseholdMember } from './api/households';
 export { getShoppingList, addShoppingListItem, updateShoppingListItem, deleteShoppingListItem } from './api/shoppingList';
+export {
+  loadShoppingList,
+  addItemOffline,
+  toggleItemOffline,
+  deleteItemOffline,
+  syncShoppingList,
+  getPendingCount,
+} from './utils/shoppingListOffline';
 
 // Types
 export type { Household, HouseholdMember, HouseholdRole, CreateHouseholdInput } from './types/household';

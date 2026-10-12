@@ -72,7 +72,10 @@
         "addPlaceholder": "Ajouter un article...",
         "unnamedItem": "Sans nom",
         "removeItem": "Supprimer cet article",
-        "checkedTitle": "Déjà pris"
+        "checkedTitle": "Déjà pris",
+        "offlineBanner": "Mode hors connexion — les modifications seront synchronisées au retour du réseau.",
+        "pendingSync_one": "{{count}} modification en attente de synchronisation",
+        "pendingSync_other": "{{count}} modifications en attente de synchronisation"
     },
     "recipeForm": {
         "title": "Créer une recette",
